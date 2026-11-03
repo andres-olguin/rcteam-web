@@ -140,5 +140,33 @@ class BrowserSmoke(unittest.TestCase):
         self.assertTrue(page.get_by_role("heading", name="Investigación").count() > 0)
         page.close()
 
+
+    def test_automated_accessibility_critical_violations(self):
+        """WCAG automated smoke check; not a substitute for human screen-reader QA."""
+        from pathlib import Path
+        axe_path = ROOT / "node_modules" / "axe-core" / "axe.min.js"
+        if not axe_path.exists():
+            self.skipTest("axe-core is installed by browser-qa CI; locally run npm install --no-save axe-core@4")
+        for width in (390, 1280):
+            with self.subTest(width=width):
+                page = self.page(width)
+                page.add_script_tag(path=str(axe_path))
+                violations = page.evaluate("""async () => {
+                  const results = await window.axe.run(document, {
+                    runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']}
+                  });
+                  return results.violations.map(v => ({
+                    id: v.id, impact: v.impact, description: v.description,
+                    nodes: v.nodes.slice(0, 3).map(n => n.target.join(' '))
+                  }));
+                }""")
+                critical = [v for v in violations if v["impact"] == "critical"]
+                serious = [v for v in violations if v["impact"] == "serious"]
+                self.assertFalse(critical, f"Critical axe violations at {width}px: {critical}")
+                if serious:
+                    print(f"Accessibility review needed at {width}px (serious): {serious}")
+                page.close()
+
+
 if __name__ == "__main__":
     unittest.main()

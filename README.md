@@ -6,6 +6,25 @@ Sitio web corporativo de RC Team Chile. La base original procede de un trabajo f
 
 **Estado:** rediseño implementado como propuesta; requiere revisión visual y aprobación del cliente. No está desplegado automáticamente en rcteam.cl.
 
+## Estado de entrega y decisiones pendientes
+
+**Corte de revisión: 3 de noviembre de 2026.** La maqueta de GitHub Pages está publicada y los flujos de validación existentes pasaron. **No equivale a la aprobación del cliente ni a la publicación oficial**.
+
+| Entregable | Estado | Evidencia / siguiente paso |
+| --- | --- | --- |
+| Demo editorial y responsive | Implementada para revisión | [GitHub Pages](https://andres-olguin.github.io/rcteam-web/) |
+| Validación estática, SEO y navegador | Automatizada | [GitHub Actions](https://github.com/andres-olguin/rcteam-web/actions) |
+| Integrantes, cargos, contenido y permisos de medios | Pendiente cliente | [Issue #5](https://github.com/andres-olguin/rcteam-web/issues/5) |
+| Formulario de producción y privacidad | Pendiente decisión/implementación | [Issue #6](https://github.com/andres-olguin/rcteam-web/issues/6) |
+| Fotografía, rendimiento, SEO final y migración | Pendiente antes de producción | [Issue #7](https://github.com/andres-olguin/rcteam-web/issues/7) |
+| Reglas obligatorias para proteger `main` | Pendiente configuración administrativa | [Issue #8](https://github.com/andres-olguin/rcteam-web/issues/8) |
+| Aprobación de Rodrigo | No confirmada | Registrar aprobación y alcance antes del lanzamiento |
+| Publicación oficial en `rcteam.cl` | **No autorizada ni ejecutada** | Requiere revisión y respaldo del hosting |
+
+**Versionado previsto:** `v0.1.0-preview` cuando se publique formalmente una versión identificable de revisión; `v1.0.0-production` solo tras aprobación y despliegue real. No hay releases publicadas a la fecha del corte. No inventar fechas límite ni aceptar tácitamente el contenido del cliente.
+
+Los detalles técnicos están en `docs/`; evitar crear documentos nuevos cuando corresponda actualizar uno existente.
+
 ## Enlaces
 - Código: https://github.com/andres-olguin/rcteam-web
 - Vista pública (GitHub Pages, vista previa): https://andres-olguin.github.io/rcteam-web/. Publicación verificada por GitHub Actions el 3 de noviembre de 2026.
