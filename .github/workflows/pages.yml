@@ -23,12 +23,10 @@ jobs:
           python-version: '3.11'
       - name: Validate HTML and local assets
         run: python scripts/validate_site.py
-      - name: Assemble public-only static site
-        run: |
-          mkdir -p _site
-          cp index.html styles.css script.js _site/
-          cp -R images assets _site/
-          touch _site/.nojekyll
+      - name: Validate SEO isolation
+        run: python -m unittest discover -s tests -p 'test_seo.py' -v
+      - name: Build non-indexable preview (never production)
+        run: python scripts/build_site.py --target preview --out _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
