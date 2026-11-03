@@ -1,0 +1,21 @@
+# Entornos locales
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python temporal / caché (scripts de validación)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Configuración privada o local
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+*.bak
+*.zip
