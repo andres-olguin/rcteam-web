@@ -1,32 +1,34 @@
 # Requerimientos y decisiones — RC Team
 
-**Fuente:** conversación de Rodrigo Cornejo con el desarrollador, octubre de 2026, aportada por el equipo.  
-**Estado:** alcance inicial acordado; no implica aprobación del resultado final.
+## Origen
+Conversación con Rodrigo Cornejo en octubre de 2026 y tres imágenes de referencia aportadas al proyecto en noviembre de 2026. El diseño es una **propuesta basada en referencias**, no una aprobación final del cliente.
 
-## Confirmado
-- Rediseñar el sitio actual `rcteam.cl` con **estilo editorial** basado en una referencia visual suministrada por el cliente (predominio azul/negro).
-- Mantener lectura por desplazamiento vertical y navegación superior.
-- Incorporar entrada **Team** para presentar aproximadamente 4–5 integrantes con fotografía y cargo.
-- Incorporar **Contacto**, que dirija a la sección/formulario inferior.
-- Adaptar a escritorio y teléfono.
-- Aplicar nuevo logo cuando el cliente entregue el archivo final.
-- Mostrar avances o maquetas antes de sustituir la web oficial.
+## Acordado
+- Rediseño editorial azul, negro y blanco, con bloques de scroll.
+- Navegación Team (aprox. 4–5 personas con foto y cargo) y Contacto (sección inferior).
+- Nuevo logotipo entregado en dos variantes: fondo negro y fondo blanco.
+- Mantener calidad responsive para escritorio y teléfonos.
+- Avances mediante una maqueta antes de alterar la web oficial.
 
-## Pendiente de recibir o validar
-- Archivo definitivo del nuevo logo y permisos de uso.
-- Nombres, fotografías y cargos de los integrantes.
-- Versión final de textos, secciones y materiales de la referencia.
-- Revisión visual del cliente y aprobación antes del despliegue.
-- Comportamiento del formulario en el entorno de vista previa (no generar correos reales sin coordinación).
+## Implementado en la maqueta
+- Nuevo logo en assets/.
+- Hero, estrategia, metodología, medios, eficiencia, territorios, filosofía, Team y contacto.
+- Navegación responsive y filtros de tipos de medios.
+- Formulario de demostración que abre borrador de correo, sin envío de producción.
+
+## Pendiente
+- Nombre, fotografías y cargos de integrantes; actualmente hay marcadores explícitos sin identidades inventadas.
+- Aprobar imágenes ilustrativas, textos y composición definitiva.
+- Decidir si el formulario de producción conserva FormSubmit o usa otra solución.
+- Revisar y aprobar la web en GitHub Pages y luego planificar despliegue en rcteam.cl.
 
 ## Acuerdo comercial
-Se conversó un precio de **CLP 30.000** para esta actualización. Es un antecedente comercial registrado, **no una constancia de pago**. Una segunda web de importaciones se mencionó como **oportunidad futura**, no como trabajo contratado.
+Rodrigo y el desarrollador acordaron CLP 30.000 por el rediseño. No hay constancia de cobro o pago en este repositorio. Una futura web de importaciones fue mencionada como posibilidad aparte, no un proyecto contratado.
 
 ## Separación de ambientes
-- `main`: sitio de base y cambios aprobados.
-- Ramas de trabajo + PR: implementación en revisión.
-- GitHub Pages: demostración pública si se habilita.
-- `rcteam.cl`: producción, despliegue separado y autorizado.
+- main: fuente para preview mediante workflow de GitHub Pages.
+- feat/* y otras ramas: trabajo y revisión con PR.
+- rcteam.cl: producción independiente, solo con autorización.
 
-## Fuera de alcance hasta nueva decisión
-CMS, ecommerce, backend, identidad de usuarios, analítica avanzada, panel administrativo y otras funciones no comprometidas explícitamente.
+## Fuera de alcance, salvo nuevo acuerdo
+E-commerce, dashboard, CMS, backend, analítica sofisticada y nuevas campañas no especificadas.
