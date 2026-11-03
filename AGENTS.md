@@ -35,6 +35,12 @@ scripts/validate_site.py = validación local.
 - Ejecutar `python -m unittest discover -s tests -p "test_seo.py" -v` cuando cambien metadatos o rutas.
 - Las rutas relativas cambian si se mueve el HTML a otra carpeta.
 
+## Higiene de cambios y documentación
+- Un cambio lógico por commit. Para PR con varios commits de trabajo, preferir squash al integrar, sin reescribir la historia existente de `main`.
+- Actualizar los documentos existentes antes de abrir un documento nuevo. No eliminar documentación con evidencia de procedencia o decisiones comerciales solo para reducir la cantidad de archivos.
+- Todos los PR deben identificar alcance, pruebas realizadas, límites y cambios visibles al cliente.
+- No marcar tareas del cliente como completadas ni poner fechas de entrega sin confirmación. Registrar bloqueadores en Issues.
+
 ## Antes de enviar PR
 - Ejecutar python scripts/validate_site.py.
 - Inspeccionar cambios por secretos y archivos no autorizados.

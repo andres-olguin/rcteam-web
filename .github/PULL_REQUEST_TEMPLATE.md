@@ -20,3 +20,8 @@
 - [ ] No afecta rcteam.cl
 - [ ] Cambios de preview comprobados
 - [ ] Aprobación del cliente requerida antes de producción
+
+## Control de cambios y aprobación
+- [ ] Commits lógicos y squash merge si el PR acumuló commits internos
+- [ ] Evidencia y límites de pruebas declarados; axe automatizado no reemplaza lector de pantalla
+- [ ] No se modificó producción ni se inventó aprobación del cliente
