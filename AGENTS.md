@@ -1,34 +1,44 @@
-# Guía de trabajo para Codex y colaboradores — RC Team
+# RC Team — Instrucciones permanentes para Codex, Antigravity y colaboradores
 
-## Propósito
-Mantener el sitio original de RC Team y ejecutar un rediseño editorial **solo con requisitos confirmados**, preservando la versión aprobada en `main`.
+## Objetivo
+Evolucionar un sitio estático profesional siguiendo la referencia editorial azul/negro de Rodrigo, sin inventar contenidos ni modificar rcteam.cl sin aprobación.
 
-## Reglas obligatorias
-1. **No hacer commits directamente a `main`** para cambios nuevos: utilizar `feat/*`, `fix/*`, `docs/*` o `chore/*` y abrir PR.
-2. No desplegar a `rcteam.cl` ni modificar DNS, hosting, servicios de contacto o credenciales sin autorización explícita.
-3. Conservar contenido, enlaces y datos de contacto existentes salvo cambio solicitado y verificado.
-4. No inventar nombres, cargos, fotos, logo, testimonios, proyectos, clientes o autorizaciones del cliente.
-5. Mantener HTML/CSS/JS estáticos hasta que exista una necesidad técnica documentada para otra tecnología.
-6. No incluir secretos, accesos, archivos personales ni licencias de recursos que no se puedan redistribuir. Revisar `git diff --cached` antes de subir.
-7. Mantener rutas **relativas** para recursos internos; la web debe funcionar bajo la subruta `/rcteam-web/` de GitHub Pages.
-8. Preservar funcionamiento de contacto y links; **no enviar formularios reales de prueba** sin coordinación.
-9. Añadir documentación y evidencia de pruebas para cambios relevantes. Usar commits descriptivos.
-10. Señalar como **pendiente/no verificado** cualquier requisito o comportamiento no comprobado.
+## Reglas de repositorio
+1. Siempre crear rama (feat/, fix/, chore/ o docs/) y Pull Request. No hacer commits de desarrollo directamente a main.
+2. main contiene la propuesta más reciente validada y la fuente de GitHub Pages (cuando Pages esté habilitado).
+3. Nunca subir contraseñas, tokens, .env, accesos de hosting, datos privados o materiales sin permiso.
+4. No cambiar DNS, dominio, hosting ni desplegar rcteam.cl sin instrucción expresa y respaldo previo.
+5. Mantener HTML, CSS y JavaScript nativos, salvo justificación técnica documentada y aprobación.
+6. Mantener rutas de recursos internas relativas (GitHub Pages usa /rcteam-web/).
+7. Conservar el branding RC Team: variantes WebP derivadas de los archivos facilitados; no sustituir ni alterar logotipo por IA.
+8. Usar solo datos de equipo confirmados. No generar ni simular fotos, roles o identidades. Los 5 perfiles presentes son marcadores explícitos.
+9. Fotografías Unsplash son recursos ilustrativos, no campañas realizadas por RC Team. Deben revisarse con Rodrigo antes de publicar producción.
+10. El formulario de preview solo abre borrador de correo: no activar FormSubmit ni otro backend sin autorización.
+11. Evitar implementar métricas, clientes, testimonios, premios o cifras no verificadas.
+12. Mantener rastreo de cambios con commits descriptivos y documentación actualizada.
 
 ## Arquitectura
-- `index.html`: contenido y semántica
-- `styles.css`: tokens, layout y puntos de quiebre
-- `script.js`: interacción no bloqueante
-- `images/`: activos aprobados y optimizados
-- `docs/`: alcance y operación
-- `scripts/validate_site.py`: verificación estática
+index.html = estructura y contenido.
+styles.css = diseño, tokens, layout, motion y responsive.
+script.js = menú, filtros y formulario demo.
+assets/ = logos entregados.
+images/ = respaldo de imágenes originales.
+docs/ = requisitos, diseño, operación y QA.
+scripts/validate_site.py = validación local.
+.github/workflows/ = CI y publicación de preview.
 
-## Verificación antes de cada PR
-- Ejecutar `python scripts/validate_site.py`.
-- Revisar manualmente a 320, 375, 768 y 1280 px; sin scroll horizontal ni contenido cortado.
-- Comprobar navegación por teclado, etiquetas, contraste y `prefers-reduced-motion`.
-- Comprobar carga de imágenes y enlaces locales en `http://localhost:8000` y, cuando aplique, en la subruta de Pages.
-- No asegurar que Pages o el formulario funcionan sin prueba real.
+## Antes de enviar PR
+- Ejecutar python scripts/validate_site.py.
+- Inspeccionar cambios por secretos y archivos no autorizados.
+- Revisar 320, 375, 768, 1024, 1280 y 1920 px; sin horizontal overflow.
+- Probar navegación por teclado, foco visible, preferencia reduced-motion, menú, filtros, links y carga de imágenes.
+- Señalar explícitamente qué pruebas no se ejecutaron.
+- No atribuir aprobación al cliente sin evidencia.
 
-## Estado del cliente
-Referencia de rediseño editorial azul/negro, navegación superior Team y Contacto, 4–5 personas en Team (datos pendientes), nuevo logo pendiente. No confundir propuesta de referencia con composición exacta aprobada. Consultar `docs/REQUIREMENTS.md`.
+## Coordinación de agentes
+Codex: implementación, pruebas y diffs pequeños.
+Antigravity: revisión UI, responsive, interacciones y QA visual.
+Trabajar en ramas distintas o en secuencia para evitar conflictos. No ejecutar merges o despliegues simultáneos sin revisión. Un responsable integra los PR.
+
+## Pendientes comerciales
+Confirmados: nuevo estilo editorial, menú Team/Contacto, navegación vertical. Pendientes: material de 4–5 integrantes, aprobación del rediseño y decisión del contacto final. Ver docs/REQUIREMENTS.md.
