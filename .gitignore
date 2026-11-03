@@ -22,3 +22,7 @@ venv/
 
 # Capturas de QA
 artifacts/
+
+# Compilaciones estáticas locales
+/dist/
+/_site/
