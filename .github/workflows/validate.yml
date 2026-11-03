@@ -20,3 +20,5 @@ jobs:
           python-version: '3.11'
       - name: Validate HTML references and structure
         run: python scripts/validate_site.py
+      - name: Verify preview and production SEO separation
+        run: python -m unittest discover -s tests -p 'test_seo.py' -v
