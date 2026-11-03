@@ -12,8 +12,12 @@
 - [ ] Menú responsive, foco accesible y cierre con Escape.
 - [ ] Filtros de medios funcionan.
 - [ ] Navegación Team y Contacto funciona.
-- [ ] Perfiles pendientes no se confunden con personas reales.
-- [ ] Formulario de demostración solo prepara borrador; no envío automático.
+- [ ] Rodrigo aparece como figura identificada por el sitio anterior y se aclara que su cargo está pendiente.
+- [ ] Otros perfiles pendientes no se confunden con personas reales.
+- [ ] Se preservaron los cinco servicios, los logos de medios originales y la referencia Declass.
+- [ ] El footer es landmark contentinfo y el contenido sigue visible si JavaScript está desactivado.
+- [ ] Los filtros actualizan el mensaje accesible con el número de categorías visibles.
+- [ ] Formulario de demostración usa POST como fallback sin añadir datos personales a la URL; con JS prepara correo, sin envío automático.
 - [ ] Preferencia de movimiento reducido respetada.
 
 ## Aprobación y despliegue

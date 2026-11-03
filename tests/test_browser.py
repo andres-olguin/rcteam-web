@@ -102,9 +102,43 @@ class BrowserSmoke(unittest.TestCase):
         self.assertEqual(img.get_attribute("src"), "assets/logo-rc-team-negro.webp")
         self.assertTrue(img.evaluate("(el) => el.complete && el.naturalWidth > 0"))
         self.assertEqual(page.locator("#contact-form").get_attribute("action"), "#")
+        self.assertEqual(page.locator("#contact-form").get_attribute("method"), "post")
         self.assertTrue(page.get_by_text("Vista previa:", exact=False).count() > 0)
         page.close()
 
+
+    def test_original_content_preserved(self):
+        page = self.page(1024)
+        for heading in (
+            "Planificación de Medios", "Desarrollo de Estrategia",
+            "Desarrollo de Proyectos", "Innovación", "Investigación"
+        ):
+            self.assertGreater(page.get_by_role("heading", name=heading, exact=True).count(), 0)
+        self.assertEqual(page.get_by_role("heading", name="Rodrigo Cornejo S.M.").count(), 1)
+        self.assertEqual(page.locator(".media-history-logos img").count(), 9)
+        self.assertTrue(page.locator('a[href="https://www.declasseeuucl.cl"]').count() > 0)
+        self.assertTrue(page.locator('a[href="tel:+56993324792"]').count() > 0)
+        self.assertTrue(page.locator('a[href="tel:+56923888013"]').count() > 0)
+        self.assertEqual(page.get_by_role("contentinfo").count(), 1)
+        page.close()
+
+    def test_filter_status_and_grid(self):
+        page = self.page(390)
+        page.get_by_role("button", name="Digital", exact=True).click()
+        self.assertEqual(page.locator("#filter-status").inner_text(), "Mostrando 1 categoría de medios.")
+        self.assertTrue(page.locator(".media-grid").evaluate("(el) => el.classList.contains('is-filtered')"))
+        self.assertLessEqual(page.evaluate("document.documentElement.scrollWidth"), 392)
+        page.close()
+
+    def test_content_visible_without_javascript(self):
+        page = self.browser.new_page(viewport={"width": 390, "height": 900}, java_script_enabled=False)
+        page.goto(BASE, wait_until="domcontentloaded")
+        self.assertEqual(
+            page.locator(".strategy-heading").evaluate("(el) => getComputedStyle(el).opacity"),
+            "1"
+        )
+        self.assertTrue(page.get_by_role("heading", name="Investigación").count() > 0)
+        page.close()
 
 if __name__ == "__main__":
     unittest.main()

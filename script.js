@@ -33,6 +33,7 @@
 
   const animated = document.querySelectorAll("[data-reveal]");
   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("reveal-enabled");
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -48,6 +49,8 @@
 
   const filters = document.querySelectorAll("[data-filter]");
   const tiles = document.querySelectorAll("[data-category]");
+  const mediaGrid = document.querySelector(".media-grid");
+  const filterStatus = document.getElementById("filter-status");
   filters.forEach((filter) => filter.addEventListener("click", () => {
     const selected = filter.dataset.filter;
     filters.forEach((btn) => {
@@ -55,9 +58,15 @@
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-pressed", String(active));
     });
+    let visible = 0;
     tiles.forEach((tile) => {
       tile.hidden = selected !== "all" && tile.dataset.category !== selected;
+      if (!tile.hidden) visible += 1;
     });
+    mediaGrid?.classList.toggle("is-filtered", selected !== "all");
+    if (filterStatus) {
+      filterStatus.textContent = "Mostrando " + visible + (visible === 1 ? " categoría de medios." : " categorías de medios.");
+    }
   }));
 
   // GitHub Pages is a public demo: prepare a local email draft instead of
@@ -71,9 +80,14 @@
     const name = String(data.get("nombre") || "").trim();
     const email = String(data.get("email") || "").trim();
     const message = String(data.get("mensaje") || "").trim();
+    const phone = String(data.get("telefono") || "").trim();
+    const project = String(data.get("proyecto") || "").trim();
     if (!name || !email || !message) return;
     const subject = "Consulta web RC Team - " + name;
-    const body = "Nombre: " + name + "\nCorreo: " + email + "\n\nMensaje:\n" + message;
+    const body = "Nombre: " + name + "\nCorreo: " + email
+      + (phone ? "\nTeléfono: " + phone : "")
+      + (project ? "\nProyecto: " + project : "")
+      + "\n\nMensaje:\n" + message;
     const url = "mailto:contacto@rcteam.cl?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     feedback.textContent = "Se preparará un borrador en tu aplicación de correo. El envío queda a tu cargo.";
     window.location.href = url;
