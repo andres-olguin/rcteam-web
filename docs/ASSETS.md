@@ -18,3 +18,11 @@ Fotografías empleadas por ID:
 - 1477959858617-67f85cf4f1df: skyline.
 
 Antes de publicación oficial, revisar con Rodrigo y reemplazar elementos de demostración según su material aprobado. No publicar imágenes privadas sin consentimiento.
+
+
+## Recursos procedentes de la web original
+- `images/PERFIL.png`: foto mostrada junto al nombre de Rodrigo Cornejo S.M.; requiere optimización antes de producción (aprox. 7.4 MB en el repositorio).
+- `images/declass.jpg` y `images/declassmobile.png`: material visual del proyecto Declass de la versión original.
+- Logotipos de medios en `images/`: Pauta, Mega, TXS, Infinita, El Mostrador, The Clinic, Tele13, Cooperativa, Emol y otro archivo sin identificar `diario.png`.
+
+Su presencia en el sitio anterior no confirma relación contractual, patrocinios ni licencias de reproducción. Validar con Rodrigo antes del lanzamiento oficial.
