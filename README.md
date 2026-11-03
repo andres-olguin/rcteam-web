@@ -1,66 +1,77 @@
-# RC Team Chile — Sitio web
+# RC Team Chile — Sitio web editorial 2026
 
-Repositorio de desarrollo y mantenimiento del sitio de **RC Team Chile**, gestionado técnicamente por **MasterTech SpA**.
+![Logotipo RC Team](assets/logo-rc-team-blanco.webp)
 
-> **Estado:** versión original importada el 3 de noviembre de 2026. El rediseño editorial solicitado por Rodrigo Cornejo está **pendiente**, no publicado ni aprobado. No confundir este repositorio con evidencia de que la nueva versión esté terminada.
+Sitio web corporativo de RC Team Chile, desarrollado por MasterTech SpA. Este repositorio contiene una **maqueta editorial responsive** para revisión con Rodrigo Cornejo y conserva la versión original importada en el historial Git.
+
+**Estado:** rediseño implementado como propuesta; requiere revisión visual y aprobación del cliente. No está desplegado automáticamente en rcteam.cl.
 
 ## Enlaces
-
-- Sitio oficial: https://rcteam.cl
 - Código: https://github.com/andres-olguin/rcteam-web
-- Vista de GitHub Pages (solo cuando esté habilitada): https://andres-olguin.github.io/rcteam-web/
+- Vista pública prevista: https://andres-olguin.github.io/rcteam-web/ (funcionará después de habilitar Pages y completar el workflow).
+- Web oficial existente: https://rcteam.cl
+- Diseño de referencia: imagen proporcionada directamente por Rodrigo (no es una orden de copia pixel a pixel).
 
-## Tecnología
+## Contenido de la propuesta
+- Portada de gran formato con nuevo logo y estética azul oscuro/cian.
+- Estrategia y servicios: planificación, negociación, implementación y verificación.
+- Cómo trabajamos: entender, conectar, activar y mejorar.
+- Mosaico de medios con filtros: exterior, tradicionales y digital.
+- Inversión, territorios, filosofía, Team y contacto.
+- Team reservado para 4–5 fotografías/cargos reales, todavía **pendientes**.
+- Formulario **de demostración**: abre un borrador en el cliente de correo; no envía mensajes por backend.
+- Recursos externos de Unsplash son **ilustrativos** y no son campañas de RC Team.
 
-Sitio estático: HTML5, CSS3 y JavaScript sin framework ni compilación. Fuentes Poppins (Google Fonts), iconos Font Awesome desde CDN y formulario de contacto mediante FormSubmit (servicio externo).
+## Tecnologías
+HTML5, CSS3, JavaScript nativo y assets WebP. Sin Node, dependencias de producción ni proceso de compilación. La previsualización utiliza GitHub Pages.
 
 ## Estructura
+- index.html — contenido y semántica.
+- styles.css — sistema visual y breakpoints.
+- script.js — menú, filtros, animación y correo.
+- assets/ — variantes optimizadas del nuevo logo.
+- images/ — recursos originales conservados.
+- docs/ — alcance, diseño, assets, operación y QA.
+- scripts/validate_site.py — verificación estática.
+- .github/workflows/validate.yml — validación de PR y main.
+- .github/workflows/pages.yml — publicación de preview desde main.
 
-```text
-/
-├── index.html               # Página principal
-├── styles.css               # Diseño y responsive
-├── script.js                # Interacciones y animaciones
-├── images/                  # Recursos gráficos
-├── docs/                    # Requisitos y operaciones
-├── scripts/                 # Validaciones sin dependencias
-└── .github/workflows/       # Integración continua
-```
+## Desarrollar en Windows o en la universidad
+Requisitos: Git, VS Code (u otro editor), navegador y Python 3 opcional para validación.
 
-## Trabajar desde Windows o la universidad
+Comandos:
 
-Requisitos: Git, navegador y un editor como VS Code; Python 3 es opcional para validación.
+    git clone https://github.com/andres-olguin/rcteam-web.git
+    cd rcteam-web
+    python -m http.server 8000
 
-```powershell
-git clone https://github.com/andres-olguin/rcteam-web.git
-cd rcteam-web
-python -m http.server 8000
-```
+Abrir http://localhost:8000.
 
-Visitar http://localhost:8000 y detener con Ctrl+C. Como alternativa, abrir `index.html` directamente; el servidor local reproduce mejor las rutas del sitio.
+Antes de empezar cualquier cambio:
 
-Para comenzar una modificación: `git switch main`, `git pull --ff-only`, `git switch -c feat/nombre-cambio`. Al terminar: `python scripts/validate_site.py`, `git add .`, `git commit -m "feat: descripcion"`, `git push -u origin feat/nombre-cambio` y abrir un pull request contra `main`. **No cambiar directamente main.**
+    git switch main
+    git pull --ff-only origin main
+    git switch -c feat/nueva-mejora
 
-## Validación
+Verificar con:
 
-```powershell
-python scripts/validate_site.py
-```
+    python scripts/validate_site.py
 
-Comprueba estructura básica, recursos relativos y destinos internos del HTML. **No reemplaza** pruebas visuales, de accesibilidad, de enlaces externos ni pruebas reales del formulario.
+Luego subir rama y abrir PR para revisión. No escribir directo a main en trabajos nuevos. Para actualizar una máquina después de una fusión:
 
-## Publicación y revisión
+    git switch main
+    git pull --ff-only origin main
 
-La configuración de GitHub Pages se describe en [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). La vista de Pages debe tratarse como un entorno público de revisión, no como la producción de `rcteam.cl`. Antes de demostrar el sitio al cliente, verificar visualmente escritorio y móvil.
+## Publicación
+Leer docs/DEPLOYMENT.md. GitHub Pages se habilita inicialmente en Settings > Pages > Source > GitHub Actions, por el propietario del repositorio. La acción de despliegue no modifica rcteam.cl ni el DNS.
 
-## Alcance del rediseño
+## Requisitos y control de calidad
+- docs/REQUIREMENTS.md — decisiones y pendientes con Rodrigo.
+- docs/DESIGN-SYSTEM.md — dirección visual, responsividad y accesibilidad.
+- docs/QA-CHECKLIST.md — verificación manual y aprobación.
+- docs/ASSETS.md — procedencia de logos e imágenes ilustrativas.
 
-Consultar [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md). Referencia editorial azul/negro, navegación Team y Contacto, equipo de 4–5 integrantes por confirmar y nuevo logo pendiente de integrar. **Los contenidos nuevos requieren material y validación del cliente.**
+## Seguridad y permisos
+Repositorio **público**: no subir credenciales, accesos al hosting, capturas privadas ni fotografías del equipo sin permiso de publicación. Se excluyen archivos .env en .gitignore. La marca y contenido del cliente no se relicencian por el hecho de mantener este repositorio.
 
-## Seguridad y contenido
-
-No introducir accesos de hosting, credenciales, tokens, respaldos privados ni información personal no autorizada. El repositorio es público. **No realizar envíos de prueba del formulario de contacto** sin coordinación con el destinatario.
-
-## Responsabilidades
-
-RC Team Chile es el sitio del cliente. MasterTech SpA presta servicios de desarrollo y mantenimiento; la autoría técnica no implica propiedad de la marca, imágenes ni contenidos de RC Team. Las entregas deben aprobarse antes de publicar en el dominio oficial.
+**No presentar la demo como sitio oficial finalizado hasta obtener la aprobación de RC Team.**
