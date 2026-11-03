@@ -2,7 +2,7 @@
 
 ![Logotipo RC Team](assets/logo-rc-team-blanco.webp)
 
-Sitio web corporativo de RC Team Chile, desarrollado por MasterTech SpA. Este repositorio contiene una **maqueta editorial responsive** para revisión con Rodrigo Cornejo y conserva la versión original importada en el historial Git.
+Sitio web corporativo de RC Team Chile. La base original procede de un trabajo freelance anterior; el rediseño editorial de 2026 se gestiona técnicamente en el marco de MasterTech SpA. Este repositorio contiene una **maqueta editorial responsive** para revisión con Rodrigo Cornejo y conserva la versión original importada en el historial Git.
 
 **Estado:** rediseño implementado como propuesta; requiere revisión visual y aprobación del cliente. No está desplegado automáticamente en rcteam.cl.
 
@@ -77,4 +77,4 @@ Leer docs/DEPLOYMENT.md. GitHub Pages utiliza el workflow de GitHub Actions. La 
 ## Seguridad y permisos
 Repositorio **público**: no subir credenciales, accesos al hosting, capturas privadas ni fotografías del equipo sin permiso de publicación. Se excluyen archivos .env en .gitignore. La marca y contenido del cliente no se relicencian por el hecho de mantener este repositorio.
 
-**No presentar la demo como sitio oficial finalizado hasta obtener la aprobación de RC Team.**
+**No presentar la demo como sitio oficial finalizado hasta obtener la aprobación de RC Team.** El código original no debe atribuirse retrospectivamente como un trabajo contratado por la sociedad sin respaldo contractual.
