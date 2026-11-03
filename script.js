@@ -3,27 +3,44 @@
   const header = document.querySelector(".site-header");
   const nav = document.getElementById("main-nav");
   const toggle = document.querySelector(".menu-toggle");
+  const backdrop = document.querySelector(".menu-backdrop");
   const setScrolled = () => header?.classList.toggle("is-scrolled", window.scrollY > 25);
   setScrolled();
   window.addEventListener("scroll", setScrolled, { passive: true });
 
   const closeMenu = () => {
     nav?.classList.remove("is-open");
+    backdrop?.classList.remove("is-visible");
+    document.body.classList.remove("menu-open");
     toggle?.setAttribute("aria-expanded", "false");
     toggle?.setAttribute("aria-label", "Abrir menú");
   };
   toggle?.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") !== "true";
     nav?.classList.toggle("is-open", open);
+    backdrop?.classList.toggle("is-visible", open);
+    document.body.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
   });
   nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  backdrop?.addEventListener("click", closeMenu);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       const wasOpen = toggle?.getAttribute("aria-expanded") === "true";
       closeMenu();
       if (wasOpen) toggle?.focus();
+    }
+    if (event.key === "Tab" && toggle?.getAttribute("aria-expanded") === "true") {
+      const items = [toggle, ...nav.querySelectorAll("a")];
+      const first = items[0], last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   });
   document.addEventListener("click", (event) => {
