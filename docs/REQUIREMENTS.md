@@ -12,15 +12,17 @@ Conversación con Rodrigo Cornejo en octubre de 2026 y tres imágenes de referen
 
 ## Implementado en la maqueta
 - Nuevo logo en assets/.
-- Hero, estrategia, metodología, medios, eficiencia, territorios, filosofía, Team y contacto.
+- Hero, estrategia, presentación de agencia, servicios originales, metodología, medios, logos de medios originales, Declass, eficiencia, territorios, filosofía, Team y contacto.
 - Navegación responsive y filtros de tipos de medios.
 - Formulario de demostración que abre borrador de correo, sin envío de producción.
 
 ## Pendiente
-- Nombre, fotografías y cargos de integrantes; actualmente hay marcadores explícitos sin identidades inventadas.
+- El sitio original identifica a Rodrigo Cornejo S.M. y su foto, ahora recuperados en Team. Su cargo y los demás nombres, fotografías y cargos continúan por confirmar.
 - Aprobar imágenes ilustrativas, textos y composición definitiva.
 - Decidir si el formulario de producción conserva FormSubmit o usa otra solución.
-- Revisar y aprobar la web en GitHub Pages y luego planificar despliegue en rcteam.cl.
+- GitHub Pages quedó configurado el 3 de noviembre de 2026; revisar y aprobar visualmente la web y planificar despliegue posterior en rcteam.cl.
+- Confirmar qué logos de medios pueden mostrarse públicamente y el vínculo exacto con Declass.
+- Ver docs/CONTENT.md y docs/MIGRATION.md para distinguir contenido original de propuestas nuevas.
 
 ## Acuerdo comercial
 Rodrigo y el desarrollador acordaron CLP 30.000 por el rediseño. No hay constancia de cobro o pago en este repositorio. Una futura web de importaciones fue mencionada como posibilidad aparte, no un proyecto contratado.
