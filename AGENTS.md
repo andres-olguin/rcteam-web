@@ -5,13 +5,13 @@ Evolucionar un sitio estático profesional siguiendo la referencia editorial azu
 
 ## Reglas de repositorio
 1. Siempre crear rama (feat/, fix/, chore/ o docs/) y Pull Request. No hacer commits de desarrollo directamente a main.
-2. main contiene la propuesta más reciente validada y la fuente de GitHub Pages (cuando Pages esté habilitado).
+2. main contiene la maqueta más reciente y alimenta GitHub Pages. La demo no equivale a aprobación del sitio oficial.
 3. Nunca subir contraseñas, tokens, .env, accesos de hosting, datos privados o materiales sin permiso.
 4. No cambiar DNS, dominio, hosting ni desplegar rcteam.cl sin instrucción expresa y respaldo previo.
 5. Mantener HTML, CSS y JavaScript nativos, salvo justificación técnica documentada y aprobación.
 6. Mantener rutas de recursos internas relativas (GitHub Pages usa /rcteam-web/).
 7. Conservar el branding RC Team: variantes WebP derivadas de los archivos facilitados; no sustituir ni alterar logotipo por IA.
-8. Usar solo datos de equipo confirmados. No generar ni simular fotos, roles o identidades. Los 5 perfiles presentes son marcadores explícitos.
+8. Usar solo datos de equipo confirmados. Rodrigo aparece con foto del sitio anterior, pero su cargo y los demás integrantes siguen pendientes. No inventar perfiles ni roles.
 9. Fotografías Unsplash son recursos ilustrativos, no campañas realizadas por RC Team. Deben revisarse con Rodrigo antes de publicar producción.
 10. El formulario de preview solo abre borrador de correo: no activar FormSubmit ni otro backend sin autorización.
 11. Evitar implementar métricas, clientes, testimonios, premios o cifras no verificadas.
@@ -26,6 +26,14 @@ images/ = respaldo de imágenes originales.
 docs/ = requisitos, diseño, operación y QA.
 scripts/validate_site.py = validación local.
 .github/workflows/ = CI y publicación de preview.
+
+## SEO y ambientes
+- No quitar `noindex,nofollow` del `index.html` fuente: es la vista previa pública.
+- Construir la maqueta mediante `python scripts/build_site.py --target preview`.
+- No eludir bloqueadores de la exportación oficial ni desplegar en `rcteam.cl` sin autorización del cliente.
+- JSON-LD debe utilizar solamente información acreditada. No inventar domicilio, cargos, fechas ni cifras.
+- Ejecutar `python -m unittest discover -s tests -p "test_seo.py" -v` cuando cambien metadatos o rutas.
+- Las rutas relativas cambian si se mueve el HTML a otra carpeta.
 
 ## Antes de enviar PR
 - Ejecutar python scripts/validate_site.py.
