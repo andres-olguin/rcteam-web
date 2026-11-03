@@ -1,39 +1,34 @@
-# GitHub Pages y publicación de producción
+# Previsualización en GitHub Pages y producción
 
-## 1. Vista de demostración (Pages)
-Este sitio es estático y puede desplegarse desde `main` sin compilación.
+## GitHub Pages (primer uso)
+1. En https://github.com/andres-olguin/rcteam-web/settings/pages ir a Build and deployment.
+2. Elegir Source: **GitHub Actions**.
+3. El workflow .github/workflows/pages.yml se dispara al hacer push a main o mediante Run workflow en Actions.
+4. Revisar que la acción "Publish preview to GitHub Pages" finalice en verde.
+5. Verificar https://andres-olguin.github.io/rcteam-web/ y probar escritorio, móvil, enlaces, menús, filtros e imágenes.
 
-1. Abrir **Settings > Pages** en el repositorio.
-2. Seleccionar **Deploy from a branch**, rama **main**, carpeta **/(root)** y guardar.
-3. Comprobar el enlace mostrado por GitHub. La URL habitual es `https://andres-olguin.github.io/rcteam-web/`, **solo cuando Pages esté realmente activo**.
-4. Esperar confirmación del workflow/deploy y probar navegación, CSS, JS, imágenes y enlaces en esa URL.
-5. Verificar que imágenes, CSS y JS usen rutas relativas, sin anteponer `/`, para funcionar en la subruta.
+**La configuración inicial requiere acceso administrativo** al repositorio. No afirmar que Pages está activo solo porque exista el workflow. El workflow no usa credenciales de hosting ni afecta el DNS.
 
-**Importante:** Pages es público; no incorporar credenciales, contenido sensible ni materiales no autorizados. La vista previa podría ofrecer un formulario real que envía a `contacto@rcteam.cl`: evitar pruebas enviadas sin coordinación.
+## Vista previa
+- Se empaquetan únicamente index.html, styles.css, script.js, images/ y assets/.
+- Rutas relativas para subruta /rcteam-web/.
+- Etiqueta noindex para que buscadores no traten la vista de revisión como web oficial.
+- El formulario no envía por backend: abre un borrador de correo con los datos que introduce la persona.
 
-## 2. Cambios y control de calidad
-- Cada cambio se desarrolla en rama propia con PR y revisión.
-- Ejecutar `python scripts/validate_site.py` y revisar la vista previa manualmente.
-- Una rama no aparece automáticamente en el Pages servido desde `main`.
-- Al fusionar cambios aprobados a `main`, se actualiza la vista de Pages si está configurada.
+## Producción: rcteam.cl
+No se publicará automáticamente desde este repo.
+1. Obtener aprobación final de Rodrigo.
+2. Sustituir perfiles pendientes y material ilustrativo según indicación.
+3. Definir formulario de producción (sin confiar en el borrador de preview).
+4. Crear respaldo de los archivos existentes del hosting.
+5. Comprobar seguridad, HTTPS, correo, DNS, links y favicon.
+6. Publicar mediante el acceso autorizado al hosting.
+7. Quitar noindex solo en la versión de producción y validar el formulario.
+8. Registrar fecha, commit, evidencia y procedimiento de rollback.
 
-## 3. Sitio oficial rcteam.cl
-**No desplegar automáticamente desde GitHub Pages ni cambiar DNS.** El hosting real y sus accesos son independientes.
+## Trabajo entre computadores
+Para un nuevo dispositivo usar git clone. Para sincronizar main: git switch main y git pull --ff-only origin main.
+Para cambios, abrir ramas con git switch -c feat/descripcion, correr python scripts/validate_site.py, push y PR.
 
-Antes de subir cambios a producción:
-1. Obtener aprobación expresa del cliente.
-2. Guardar respaldo de archivos existentes del hosting.
-3. Confirmar dominio, certificado HTTPS, rutas, favicon y formularios.
-4. Subir los archivos mediante el procedimiento autorizado para el proveedor del hosting.
-5. Verificar versión móvil y escritorio, accesos y funcionamiento de contacto con autorización.
-6. Registrar fecha, commit y resultado de despliegue; tener plan de reversión con el respaldo.
-
-## 4. Trabajo en otra computadora
-```powershell
-git clone https://github.com/andres-olguin/rcteam-web.git
-cd rcteam-web
-git switch main
-git pull --ff-only
-git switch -c feat/nueva-seccion
-```
-Para sincronizar una rama existente: `git fetch origin` y `git switch nombre-rama`; evitar copiar carpetas manualmente.
+## Checklist
+Consultar docs/QA-CHECKLIST.md. La validación automática no demuestra que todos los navegadores y tamaños sean correctos.
