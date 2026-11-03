@@ -168,5 +168,77 @@ class BrowserSmoke(unittest.TestCase):
                 page.close()
 
 
+
+    def test_visual_footer_hero_geometry(self):
+        page = self.page(1280)
+        footer_logo = page.locator(".footer-brand img")
+        footer_logo.scroll_into_view_if_needed()
+        page.wait_for_function("document.querySelector('.footer-brand img').naturalWidth > 0")
+        dimensions = footer_logo.evaluate("""(el) => {
+          const r = el.getBoundingClientRect();
+          return {rendered: r.width / r.height, intrinsic: el.naturalWidth / el.naturalHeight};
+        }""")
+        self.assertAlmostEqual(dimensions["rendered"], dimensions["intrinsic"], delta=0.08)
+        rects = page.evaluate("""() => {
+          const a = document.querySelector('.hero-art-caption').getBoundingClientRect();
+          const b = document.querySelector('.hero-art-card-b').getBoundingClientRect();
+          return {overlap: a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top};
+        }""")
+        self.assertFalse(rects["overlap"], "Hero caption overlaps the lower collage card")
+        page.close()
+
+    def test_mobile_contact_and_media_geometry(self):
+        page = self.page(320)
+        positions = page.evaluate("""() => {
+          const heading = document.querySelector('.contact-heading h2').getBoundingClientRect();
+          const orb = document.querySelector('.contact-orb').getBoundingClientRect();
+          return {orbRight:orb.right, orbTop:orb.top, headingBottom:heading.bottom};
+        }""")
+        self.assertLessEqual(positions["orbRight"], 321)
+        self.assertGreaterEqual(positions["orbTop"], positions["headingBottom"] - 1)
+        page.close()
+
+        page = self.page(390)
+        dimensions = page.evaluate("""() => ({
+            grid: document.querySelector('.media-grid').getBoundingClientRect().width,
+            last: document.querySelector('.media-tile:nth-child(6)').getBoundingClientRect().width
+        })""")
+        self.assertAlmostEqual(dimensions["grid"], dimensions["last"], delta=2)
+        page.close()
+
+        page = self.page(1280)
+        page.get_by_role("button", name="Digital", exact=True).click()
+        selected = page.locator(".media-tile:visible")
+        self.assertEqual(selected.count(), 1)
+        self.assertLessEqual(selected.first.bounding_box()["width"], 381)
+        page.close()
+
+    def test_team_last_row_is_centered(self):
+        for width in (390, 768):
+            with self.subTest(width=width):
+                page = self.page(width)
+                positions = page.evaluate("""() => {
+                  const container = document.querySelector('.team-grid').getBoundingClientRect();
+                  const children = Array.from(document.querySelectorAll('.team-grid > .team-placeholder'));
+                  const items = children.slice(window.innerWidth < 571 ? -1 : -2);
+                  const left = Math.min(...items.map(el => el.getBoundingClientRect().left));
+                  const right = Math.max(...items.map(el => el.getBoundingClientRect().right));
+                  return {itemsMid:(left+right)/2, containerMid:container.left+container.width/2};
+                }""")
+                self.assertAlmostEqual(positions["itemsMid"], positions["containerMid"], delta=5)
+                page.close()
+
+    def test_mobile_menu_backdrop_and_scroll_lock(self):
+        page = self.page(390)
+        toggle = page.locator(".menu-toggle")
+        toggle.click()
+        self.assertTrue(page.locator("body").evaluate("(el) => el.classList.contains('menu-open')"))
+        self.assertTrue(page.locator(".menu-backdrop").is_visible())
+        page.mouse.click(8, 880)
+        self.assertEqual(toggle.get_attribute("aria-expanded"), "false")
+        self.assertFalse(page.locator("body").evaluate("(el) => el.classList.contains('menu-open')"))
+        page.close()
+
+
 if __name__ == "__main__":
     unittest.main()
