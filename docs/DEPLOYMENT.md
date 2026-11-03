@@ -9,6 +9,9 @@
 
 **La configuración inicial requiere acceso administrativo** al repositorio. No afirmar que Pages está activo solo porque exista el workflow. El workflow no usa credenciales de hosting ni afecta el DNS.
 
+## SEO por ambiente
+La acción de Pages construye solamente la versión demo mediante `python scripts/build_site.py --target preview --out _site`. No se indexa ni modifica el dominio oficial. Ver [SEO-RELEASE.md](SEO-RELEASE.md).
+
 ## Vista previa
 - Se empaquetan únicamente index.html, styles.css, script.js, images/ y assets/.
 - Rutas relativas para subruta /rcteam-web/.

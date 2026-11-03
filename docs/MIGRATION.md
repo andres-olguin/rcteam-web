@@ -28,7 +28,7 @@ El respaldo importado conserva el trabajo freelance original; el rediseño se ge
 5. Resolver el mecanismo de formulario **real** (protección anti-spam, finalidad, datos tratados y aviso de privacidad revisado).
 6. Optimizar la foto del perfil y recursos pesados; sustituir imágenes externas ilustrativas por material aprobado.
 7. Auditar rutas internas, enlaces, contraste, teclado y SEO de producción.
-8. Preparar una build de producción: retirar `noindex`, fijar canonical en `https://rcteam.cl/`, adaptar `og:url`, `og:image`, robots/sitemap y verificar metadatos.
+8. Preparar una exportación mediante `python scripts/build_site.py --target production --approved-client-release --out dist/production` únicamente tras aprobación y resolución de bloqueadores. El script agrega canonical, robots/sitemap, JSON-LD `Organization` y adapta URLs sociales. Ver [SEO-RELEASE.md](SEO-RELEASE.md).
 9. Tomar copia de seguridad de archivos de hosting y documentar cómo revertir.
 10. Coordinar ventana de publicación con Rodrigo; no alterar DNS ni alojamiento sin instrucción expresa.
 11. Verificar HTTPS, recursos, enlaces, formulario y mobile en producción.
