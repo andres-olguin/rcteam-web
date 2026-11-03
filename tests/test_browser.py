@@ -73,7 +73,7 @@ class BrowserSmoke(unittest.TestCase):
 
     def test_mobile_menu_and_links(self):
         page = self.page(390)
-        menu = page.get_by_role("button", name="Abrir menú")
+        menu = page.locator(".menu-toggle")
         menu.click()
         self.assertEqual(menu.get_attribute("aria-expanded"), "true")
         page.get_by_role("navigation", name="Navegación principal").get_by_role(
