@@ -291,6 +291,11 @@ class BrowserSmoke(unittest.TestCase):
         page = self.page(1280)
         for selector in (".brand img", ".footer-brand img"):
             logo = page.locator(selector)
+            logo.scroll_into_view_if_needed()
+            page.wait_for_function(
+                "(selector) => { const el = document.querySelector(selector); return el && el.complete && el.naturalWidth > 0; }",
+                arg=selector
+            )
             self.assertTrue(logo.evaluate("(el) => el.complete && el.naturalWidth > 0"))
             self.assertIn("rc-black-to-alpha", logo.evaluate("(el) => getComputedStyle(el).filter"))
         self.assertTrue(page.locator("filter#rc-black-to-alpha").count() == 1)
