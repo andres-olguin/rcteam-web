@@ -74,7 +74,7 @@ h2 em{font-style:normal;color:var(--blue)}
 .strategy-heading h2{margin-bottom:45px}
 .strategy-heading>p{max-width:300px;color:#5b6d81;margin-bottom:48px}
 .timeline{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid #146bdf;gap:30px}
-.timeline article{position:relative;padding-top:24px}
+.timeline article{position:relative;padding-top:24px;min-width:0;overflow-wrap:anywhere}
 .timeline-node{position:absolute;top:-7px;left:0;background:#0a5ec9;width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 4px #deebfb}
 .timeline small{font-weight:800;letter-spacing:.16em;color:#6f8caa}
 .timeline h3{font-size:1.21rem;line-height:1.2;font-weight:800;letter-spacing:-.035em;margin:7px 0 9px}
@@ -229,7 +229,7 @@ h2 em{font-style:normal;color:var(--blue)}
   .hero-art-card-a{width:155px;height:91px;padding:9px 12px;right:0}.hero-art-card-a>span{font-size:.55rem}
   .wave{height:46px}.wave i{max-height:33px}
   .hero-art-card-b{bottom:1%;padding:13px 16px}.hero-art-card-b>span{font-size:.55rem}.hero-art-card-b strong{font-size:1.05rem}
-  .hero-art-caption{top:13px;bottom:auto;left:13px}.hero-art-caption strong{font-size:1.2rem}
+  .hero-art-caption{top:100px;bottom:auto;left:13px}.hero-art-caption strong{font-size:1.2rem}
   .section{padding:64px 0}.section-label{font-size:.62rem}
   h2{font-size:clamp(2.3rem,9vw,3.35rem)}
   .timeline{grid-template-columns:repeat(2,1fr);column-gap:24px;row-gap:35px;border:0}
@@ -348,6 +348,14 @@ h2 em{font-style:normal;color:var(--blue)}
 .menu-backdrop{display:none;position:fixed;inset:0;z-index:70;background:rgba(0,8,22,.76)}
 .menu-backdrop.is-visible{display:block}
 body.menu-open{overflow:hidden}
+/* Keep section navigation available when JavaScript is unavailable. */
+@media(max-width:850px){
+  html:not(.js) .site-header{position:static}
+  html:not(.js) .site-header .nav-shell{height:auto;flex-wrap:wrap;padding-block:16px}
+  html:not(.js) .menu-toggle{display:none}
+  html:not(.js) .main-nav{display:flex;position:static;width:100%;max-height:none;padding:0;box-shadow:none}
+}
+html:not(.js) #contact-form{display:none}
 @media(max-width:420px){
   .contact-heading{flex-direction:column;align-items:flex-start;gap:18px}
   .contact-heading h2{max-width:100%;min-width:0;overflow-wrap:anywhere}
@@ -405,4 +413,24 @@ body.menu-open{overflow:hidden}
 }
 @media(max-width:570px){
   .media-grid:not(.is-filtered){grid-template-rows:none;grid-auto-rows:190px}
+}
+
+/* Antigravity visual audit fixes: hero intermediate separation, legible micro-labels, balanced filtered tiles. */
+@media(min-width:851px) and (max-width:1140px){
+  .hero-art-caption{top:150px}
+}
+.eyebrow,.section-label,.media-tile-overlay small{font-size:.75rem}
+.team-placeholder span,.services-grid span{font-size:.72rem}
+@media(max-width:570px){
+  .eyebrow,.section-label,.media-tile-overlay small{font-size:.6875rem}
+  .hero-art-card-a>span,.hero-art-card-b>span{font-size:.6875rem}
+}
+.media-grid.is-filtered{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:transparent}
+.media-grid.is-filtered .media-tile{width:100%;max-width:100%;height:280px}
+@media(max-width:850px){
+  .media-grid.is-filtered{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:570px){
+  .media-grid.is-filtered{grid-template-columns:1fr}
+  .media-grid.is-filtered .media-tile{height:230px}
 }

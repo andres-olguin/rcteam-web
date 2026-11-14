@@ -111,8 +111,12 @@ def build(target: str, destination: Path, approved: bool = False) -> None:
     else:
         raise ValueError(f"Entorno desconocido: {target}")
     destination = destination.resolve()
-    if destination in (ROOT, ROOT / "images", ROOT / "assets"):
+    protected = [ROOT / name for name in ("assets", "images", "scripts", "tests", "docs", ".github", ".git")]
+    if (destination == ROOT or destination in ROOT.parents
+            or any(destination == path or destination.is_relative_to(path) for path in protected)):
         raise ValueError("Destino no permitido: no sobrescribir el proyecto ni los activos")
+    if target == "preview" and any((destination / name).exists() for name in ("robots.txt", "sitemap.xml")):
+        raise ValueError("Destino contiene robots.txt o sitemap.xml: usar un directorio limpio para preview")
     destination.mkdir(parents=True, exist_ok=True)
     (destination / "index.html").write_text(html, encoding="utf-8")
     for name in SITE_FILES:

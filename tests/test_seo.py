@@ -2,18 +2,41 @@
 import json
 import re
 import unittest
+import tempfile
 from pathlib import Path
 
 from scripts.build_site import (
     PREVIEW_URL, PRODUCTION_URL, ROBOTS_PREVIEW, ROBOTS_PROD,
-    preview_is_safe, production_seo_html, production_blockers, ROOT
+    preview_is_safe, production_seo_html, production_blockers, build, ROOT
 )
+from scripts.validate_site import SiteParser
 
 HTML = (ROOT / "index.html").read_text(encoding="utf-8")
 JS = (ROOT / "script.js").read_text(encoding="utf-8")
 
 
 class SEO(unittest.TestCase):
+    def test_picture_sources_are_validated(self):
+        parser = SiteParser()
+        parser.feed('<picture><source srcset="images/small.webp 1x, images/large.webp 2x"></picture>')
+        self.assertEqual(parser.links, [
+            ("source", "srcset", "images/small.webp"),
+            ("source", "srcset", "images/large.webp"),
+        ])
+
+    def test_build_rejects_source_directories_and_ancestors(self):
+        for destination in (ROOT, ROOT.parent, ROOT / "assets" / "preview", ROOT / "docs" / "preview"):
+            with self.subTest(destination=destination), self.assertRaises(ValueError):
+                build("preview", destination)
+
+    def test_preview_rejects_stale_production_metadata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory)
+            (destination / "robots.txt").write_text("User-agent: *\nAllow: /", encoding="utf-8")
+            with self.assertRaises(ValueError):
+                build("preview", destination)
+            self.assertFalse((destination / "index.html").exists())
+
     def test_preview_is_not_indexable(self):
         self.assertTrue(preview_is_safe(HTML))
         self.assertIn(ROBOTS_PREVIEW, HTML)
