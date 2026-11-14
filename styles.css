@@ -374,3 +374,35 @@ body.menu-open{overflow:hidden}
 @media(max-width:360px){
   .hero h1{font-size:2.73rem}
 }
+
+/* RC Team: use the supplied artwork without the opaque black rectangle.
+   The SVG color-to-alpha filter is intentionally shared by header and footer. */
+.brand img,.footer-brand img{filter:url("#rc-black-to-alpha");mix-blend-mode:normal}
+
+/* All six media tiles occupy a complete two-row editorial collage on desktop.
+   The feature uses 4/10 columns; the remaining five use 2+2+2 and 3+3. */
+@media(min-width:851px){
+  .media-grid:not(.is-filtered){
+    grid-template-columns:repeat(10,minmax(0,1fr));
+    grid-template-rows:repeat(2,clamp(225px,19vw,295px));
+    grid-auto-rows:auto;
+  }
+  .media-grid:not(.is-filtered) .media-tile-feature{grid-column:span 4;grid-row:span 2}
+  .media-grid:not(.is-filtered) .media-tile:nth-child(2),
+  .media-grid:not(.is-filtered) .media-tile:nth-child(3),
+  .media-grid:not(.is-filtered) .media-tile:nth-child(4){grid-column:span 2}
+  .media-grid:not(.is-filtered) .media-tile:nth-child(5),
+  .media-grid:not(.is-filtered) .media-tile:nth-child(6){grid-column:span 3}
+}
+@media(min-width:571px) and (max-width:850px){
+  .media-grid:not(.is-filtered){
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:none;
+    grid-auto-rows:clamp(210px,27vw,260px);
+  }
+  .media-grid:not(.is-filtered) .media-tile-feature{grid-column:span 2;grid-row:auto}
+  .media-grid:not(.is-filtered) .media-tile:nth-child(6){grid-column:span 2}
+}
+@media(max-width:570px){
+  .media-grid:not(.is-filtered){grid-template-rows:none;grid-auto-rows:190px}
+}
