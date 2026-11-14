@@ -1,5 +1,6 @@
 """SEO environment isolation, HTML metadata and deployment gate."""
 import json
+from hashlib import sha256
 import re
 import unittest
 import tempfile
@@ -28,6 +29,18 @@ class SEO(unittest.TestCase):
         for destination in (ROOT, ROOT.parent, ROOT / "assets" / "preview", ROOT / "docs" / "preview"):
             with self.subTest(destination=destination), self.assertRaises(ValueError):
                 build("preview", destination)
+
+    def test_preview_assets_change_url_when_content_changes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory) / "preview"
+            build("preview", destination)
+            output = (destination / "index.html").read_text(encoding="utf-8")
+            for attribute, filename in (("href", "styles.css"), ("src", "script.js")):
+                with self.subTest(asset=filename):
+                    fingerprint = sha256((ROOT / filename).read_bytes()).hexdigest()[:12]
+                    self.assertIn(f'{attribute}="{filename}?v={fingerprint}"', output)
+                    self.assertTrue((destination / filename).is_file())
+            self.assertIn(ROBOTS_PREVIEW, output)
 
     def test_preview_rejects_stale_production_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
