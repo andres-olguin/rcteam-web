@@ -211,7 +211,7 @@ class BrowserSmoke(unittest.TestCase):
         page.get_by_role("button", name="Digital", exact=True).click()
         selected = page.locator(".media-tile:visible")
         self.assertEqual(selected.count(), 1)
-        self.assertLessEqual(selected.first.bounding_box()["width"], 381)
+        self.assertLessEqual(selected.first.bounding_box()["width"], 461)
         page.close()
 
     def test_team_last_row_is_centered(self):
@@ -333,6 +333,54 @@ class BrowserSmoke(unittest.TestCase):
                     f"Media collage has visible blank cells at {width}px: {measures}")
                 self.assertAlmostEqual(measures["lastRight"], measures["gridRight"], delta=3)
                 self.assertAlmostEqual(measures["lastBottom"], measures["gridBottom"], delta=3)
+                page.close()
+
+    def test_hero_collage_no_overlap_intermediate_widths(self):
+        for width in (850, 851, 900, 1024, 1100, 1140, 1280):
+            with self.subTest(width=width):
+                page = self.page(width)
+                rects = page.evaluate("""() => {
+                    const cap = document.querySelector(".hero-art-caption").getBoundingClientRect();
+                    const cardA = document.querySelector(".hero-art-card-a").getBoundingClientRect();
+                    const cardB = document.querySelector(".hero-art-card-b").getBoundingClientRect();
+                    const gap = (a, b) => Math.max(a.left - b.right, b.left - a.right, a.top - b.bottom, b.top - a.bottom);
+                    return {gapA: gap(cap, cardA), gapB: gap(cap, cardB)};
+                }""")
+                self.assertGreaterEqual(rects["gapA"], 16, f"Caption too close to card A at {width}px: {rects}")
+                self.assertGreaterEqual(rects["gapB"], 16, f"Caption too close to card B at {width}px: {rects}")
+                page.close()
+
+    def test_micro_labels_legible_and_filtered_media_balanced(self):
+        for width in (320, 1280):
+            with self.subTest(width=width):
+                page = self.page(width)
+                sizes = page.evaluate("""() => {
+                    const selectors = [
+                        ".eyebrow", ".section-label", ".media-tile-overlay small",
+                        ".team-placeholder span", ".services-grid span",
+                        ".hero-art-card-a > span", ".hero-art-card-b > span"
+                    ];
+                    return selectors.flatMap(sel =>
+                        [...document.querySelectorAll(sel)].map(el => ({
+                            sel, size: parseFloat(getComputedStyle(el).fontSize)
+                        }))
+                    );
+                }""")
+                for item in sizes:
+                    self.assertGreaterEqual(item["size"], 11.0, f"Micro-label below 11px at {width}px: {item}")
+                page.close()
+
+        for width in (1280, 1920):
+            with self.subTest(filter_width=width):
+                page = self.page(width)
+                page.get_by_role("button", name="Tradicionales", exact=True).click()
+                ratios = page.evaluate("""() => {
+                    const grid = document.querySelector(".media-grid").getBoundingClientRect();
+                    const tiles = [...document.querySelectorAll(".media-tile:not([hidden])")];
+                    const totalW = tiles.reduce((s, t) => s + t.getBoundingClientRect().width, 0);
+                    return {totalW, gridW: grid.width, ratio: totalW / grid.width};
+                }""")
+                self.assertGreaterEqual(ratios["ratio"], 0.98, f"Filtered tiles leave trailing gap at {width}px: {ratios}")
                 page.close()
 
 

@@ -406,3 +406,24 @@ body.menu-open{overflow:hidden}
 @media(max-width:570px){
   .media-grid:not(.is-filtered){grid-template-rows:none;grid-auto-rows:190px}
 }
+
+/* Antigravity visual audit fixes: hero intermediate separation, legible micro-labels, balanced filtered tiles. */
+.timeline article{min-width:0;overflow-wrap:anywhere}
+@media(min-width:851px) and (max-width:1140px){
+  .hero-art-caption{top:150px}
+}
+.eyebrow,.section-label,.media-tile-overlay small{font-size:.75rem}
+.team-placeholder span,.services-grid span{font-size:.72rem}
+@media(max-width:570px){
+  .eyebrow,.section-label,.media-tile-overlay small{font-size:.6875rem}
+  .hero-art-card-a>span,.hero-art-card-b>span{font-size:.6875rem}
+}
+.media-grid.is-filtered{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:transparent}
+.media-grid.is-filtered .media-tile{width:100%;max-width:100%;height:280px}
+@media(max-width:850px){
+  .media-grid.is-filtered{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:570px){
+  .media-grid.is-filtered{grid-template-columns:1fr}
+  .media-grid.is-filtered .media-tile{height:230px}
+}
