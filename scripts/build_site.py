@@ -6,6 +6,7 @@ Production is a separate, manual release artifact: never auto-deployed to rcteam
 No third-party packages needed.
 """
 import argparse
+from hashlib import sha256
 import json
 from pathlib import Path
 import shutil
@@ -26,6 +27,15 @@ def replace_exact(source: str, old: str, new: str) -> str:
     if count != 1:
         raise ValueError(f"Se esperaba exactamente 1 coincidencia, se encontraron {count}: {old!r}")
     return source.replace(old, new, 1)
+
+
+def versioned_local_assets(html: str) -> str:
+    """Use content fingerprints to avoid serving stale CSS/JS from browser or CDN caches."""
+    for attribute, filename in (("href", "styles.css"), ("src", "script.js")):
+        fingerprint = sha256((ROOT / filename).read_bytes()).hexdigest()[:12]
+        html = replace_exact(html, f'{attribute}="{filename}"',
+                             f'{attribute}="{filename}?v={fingerprint}"')
+    return html
 
 
 def preview_is_safe(html: str) -> bool:
@@ -110,6 +120,7 @@ def build(target: str, destination: Path, approved: bool = False) -> None:
         html = source
     else:
         raise ValueError(f"Entorno desconocido: {target}")
+    html = versioned_local_assets(html)
     destination = destination.resolve()
     protected = [ROOT / name for name in ("assets", "images", "scripts", "tests", "docs", ".github", ".git")]
     if (destination == ROOT or destination in ROOT.parents
