@@ -21,11 +21,15 @@ Antes de publicación oficial, revisar con Rodrigo y reemplazar elementos de dem
 
 
 ## Recursos procedentes de la web original
-- `images/PERFIL.png`: foto mostrada junto al nombre de Rodrigo Cornejo S.M.; requiere optimización antes de producción (aprox. 7.4 MB en el repositorio).
+- `images/PERFIL.png`: original de la foto mostrada junto al nombre de Rodrigo Cornejo S.M. (7.438.716 bytes); se conserva como respaldo.
+- `images/rodrigo-cornejo.webp`: copia optimizada de `PERFIL.png`, 1000×1000 px, 70.462 bytes; utilizada en Team desde la auditoría del 14-11-2026.
+- `images/declass-mobile.webp`: copia optimizada de `declassmobile.png`, 855×1165 px, 186.466 bytes frente a 1.676.042 del PNG; utilizada en el `picture` móvil.
 - `images/declass.jpg` y `images/declassmobile.png`: material visual del proyecto Declass de la versión original.
 - Logotipos de medios en `images/`: Pauta, Mega, TXS, Infinita, El Mostrador, The Clinic, Tele13, Cooperativa, Emol y otro archivo sin identificar `diario.png`.
 
 Su presencia en el sitio anterior no confirma relación contractual, patrocinios ni licencias de reproducción. Validar con Rodrigo antes del lanzamiento oficial.
+
+Las copias WebP se generaron mediante Canvas de Chromium, calidad 0,90, manteniendo proporciones y encuadre, sin generación por IA ni cambios de contenido. Los originales permanecen intactos. Estas dos variantes reducen aproximadamente 8,86 MB de transferencia al cargar ambas en móvil; el constructor aún incluye los respaldos en el paquete.
 
 
 ## Correcciones editoriales v2

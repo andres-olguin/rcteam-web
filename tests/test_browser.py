@@ -1,5 +1,7 @@
 """Headless viewport and interaction smoke tests for RC Team preview."""
 from pathlib import Path
+import os
+import json
 import subprocess
 import sys
 import time
@@ -67,8 +69,15 @@ class BrowserSmoke(unittest.TestCase):
                 )
                 self.assertTrue(page.locator("h1").is_visible())
                 self.assertTrue(page.locator("#contacto").count() == 1)
-                if width in (390, 1280):
-                    page.screenshot(path=str(ARTIFACTS / f"rc-team-{width}.png"), full_page=True)
+                page.evaluate("""async () => {
+                    await document.fonts.ready;
+                    await Promise.all([...document.images].map(img => {
+                        img.loading = 'eager';
+                        return img.decode();
+                    }));
+                }""")
+                self.assertLessEqual(page.evaluate("document.documentElement.scrollWidth"), width + 2)
+                page.screenshot(path=str(ARTIFACTS / f"rc-team-{width}.png"), full_page=True)
                 page.close()
 
     def test_mobile_menu_and_links(self):
@@ -81,6 +90,66 @@ class BrowserSmoke(unittest.TestCase):
         ).click()
         self.assertEqual(page.locator(".menu-toggle").get_attribute("aria-expanded"), "false")
         self.assertEqual(page.evaluate("location.hash"), "#team")
+        page.close()
+
+    def test_menu_keyboard_and_resize(self):
+        page = self.page(375)
+        toggle = page.locator(".menu-toggle")
+        toggle.focus()
+        page.keyboard.press("Enter")
+        page.keyboard.press("Shift+Tab")
+        self.assertEqual(page.evaluate("document.activeElement.getAttribute('href')"), "#contacto")
+        page.keyboard.press("Tab")
+        self.assertTrue(toggle.evaluate("el => el === document.activeElement"))
+        page.keyboard.press("Escape")
+        self.assertEqual(toggle.get_attribute("aria-expanded"), "false")
+        self.assertTrue(toggle.evaluate("el => el === document.activeElement"))
+        toggle.click()
+        page.set_viewport_size({"width": 1024, "height": 900})
+        page.wait_for_function("!document.body.classList.contains('menu-open')")
+        page.close()
+
+    def test_layout_without_external_fonts(self):
+        page = self.browser.new_page(viewport={"width": 320, "height": 900}, reduced_motion="reduce")
+        page.route("**/fonts.googleapis.com/**", lambda route: route.abort())
+        page.goto(BASE, wait_until="domcontentloaded")
+        self.assertLessEqual(page.evaluate("document.documentElement.scrollWidth"), 322)
+        page.close()
+
+    def test_reduced_motion_and_visible_keyboard_focus(self):
+        page = self.page(375)
+        page.keyboard.press("Tab")
+        self.assertTrue(page.locator('.skip-link').evaluate("el => el === document.activeElement"))
+        self.assertNotEqual(page.locator('.skip-link').evaluate("el => getComputedStyle(el).outlineStyle"), "none")
+        self.assertEqual(page.evaluate("getComputedStyle(document.documentElement).scrollBehavior"), "auto")
+        self.assertLessEqual(float(page.locator('.wave i').first.evaluate(
+            "el => parseFloat(getComputedStyle(el).animationDuration)"
+        )), .001)
+        self.assertEqual(page.locator('.hero-copy').evaluate("el => getComputedStyle(el).opacity"), "1")
+        page.close()
+
+    def test_form_validation_and_mail_draft(self):
+        from urllib.parse import urlsplit, parse_qs
+        page = self.page(375)
+        navigations = []
+        session = page.context.new_cdp_session(page)
+        session.send("Page.enable")
+        session.on("Page.frameRequestedNavigation", lambda event: navigations.append(event["url"]))
+        page.locator('[name="nombre"]').fill("   ")
+        page.locator('[name="email"]').fill("qa@example.org")
+        page.locator('[name="mensaje"]').fill("Consulta de prueba & medios")
+        page.locator('#contact-form button').click()
+        self.assertFalse(page.locator('[name="nombre"]').evaluate("el => el.checkValidity()"))
+        self.assertFalse(navigations)
+        page.locator('[name="nombre"]').fill("Prueba QA")
+        page.locator('#contact-form button').click()
+        page.wait_for_function("document.querySelector('#form-feedback').textContent.length > 0")
+        page.wait_for_timeout(200)
+        drafts = [url for url in navigations if url.startswith("mailto:")]
+        self.assertEqual(len(drafts), 1)
+        query = parse_qs(urlsplit(drafts[0]).query)
+        self.assertEqual(query["subject"], ["Consulta web RC Team - Prueba QA"])
+        self.assertIn("Consulta de prueba & medios", query["body"][0])
         page.close()
 
     def test_media_filters(self):
@@ -104,6 +173,18 @@ class BrowserSmoke(unittest.TestCase):
         self.assertEqual(page.locator("#contact-form").get_attribute("action"), "#")
         self.assertEqual(page.locator("#contact-form").get_attribute("method"), "post")
         self.assertTrue(page.get_by_text("Vista previa:", exact=False).count() > 0)
+        page.close()
+
+    def test_images_load_and_internal_links_resolve(self):
+        page = self.page(1280)
+        for image in page.locator("img").all():
+            image.scroll_into_view_if_needed()
+            image.evaluate("el => el.loading = 'eager'")
+            image.evaluate("el => el.decode()")
+            self.assertGreater(image.evaluate("el => el.naturalWidth"), 0)
+        self.assertEqual(page.locator('a[href^="#"]').evaluate_all("""links =>
+            links.filter(link => !document.getElementById(link.hash.slice(1))).map(link => link.hash)
+        """), [])
         page.close()
 
 
@@ -139,13 +220,14 @@ class BrowserSmoke(unittest.TestCase):
             "1"
         )
         self.assertTrue(page.get_by_role("heading", name="Investigación").count() > 0)
+        self.assertTrue(page.locator('#main-nav a[href="#team"]').is_visible())
         page.close()
 
 
     def test_automated_accessibility_critical_violations(self):
         """WCAG automated smoke check; not a substitute for human screen-reader QA."""
         from pathlib import Path
-        axe_path = ROOT / "node_modules" / "axe-core" / "axe.min.js"
+        axe_path = Path(os.environ.get("AXE_CORE_PATH", ROOT / "node_modules" / "axe-core" / "axe.min.js"))
         if not axe_path.exists():
             self.skipTest("axe-core is installed by browser-qa CI; locally run npm install --no-save axe-core@4")
         for width in (390, 1280):
@@ -163,9 +245,11 @@ class BrowserSmoke(unittest.TestCase):
                 }""")
                 critical = [v for v in violations if v["impact"] == "critical"]
                 serious = [v for v in violations if v["impact"] == "serious"]
+                (ARTIFACTS / f"axe-{width}.json").write_text(
+                    json.dumps(violations, ensure_ascii=False, indent=2), encoding="utf-8"
+                )
                 self.assertFalse(critical, f"Critical axe violations at {width}px: {critical}")
-                if serious:
-                    print(f"Accessibility review needed at {width}px (serious): {serious}")
+                self.assertFalse(serious, f"Serious axe violations at {width}px: {serious}")
                 page.close()
 
 
@@ -189,6 +273,18 @@ class BrowserSmoke(unittest.TestCase):
         page.close()
 
     def test_mobile_contact_and_media_geometry(self):
+        for width in (320, 375, 570):
+            page = self.page(width)
+            overlaps = page.evaluate("""() => {
+                const caption = document.querySelector('.hero-art-caption').getBoundingClientRect();
+                return [...document.querySelectorAll('.hero-art-card')].some(el => {
+                    const card = el.getBoundingClientRect();
+                    return caption.left < card.right && caption.right > card.left &&
+                        caption.top < card.bottom && caption.bottom > card.top;
+                });
+            }""")
+            self.assertFalse(overlaps, f"Hero caption overlaps a card at {width}px")
+            page.close()
         page = self.page(320)
         positions = page.evaluate("""() => {
           const heading = document.querySelector('.contact-heading h2').getBoundingClientRect();

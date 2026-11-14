@@ -16,6 +16,8 @@ Para la vista previa:
 
 La GitHub Action `.github/workflows/pages.yml` ejecuta ese mismo constructor para `_site` y **no** habilita SEO de producción.
 
+El constructor rechaza destinos dentro de activos, documentación, scripts, pruebas y configuración Git, además de la raíz y sus ancestros. Para preview también rechaza un destino que ya contenga `robots.txt` o `sitemap.xml`; usar una carpeta limpia para no mezclar archivos de producción.
+
 Para una versión oficial, después de aprobación explícita y de completar las dependencias:
 
     python scripts/build_site.py --target production --approved-client-release --out dist/production
