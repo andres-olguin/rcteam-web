@@ -286,5 +286,50 @@ class BrowserSmoke(unittest.TestCase):
         page.close()
 
 
+
+    def test_brand_logo_and_matching_favicon(self):
+        page = self.page(1280)
+        for selector in (".brand img", ".footer-brand img"):
+            logo = page.locator(selector)
+            self.assertTrue(logo.evaluate("(el) => el.complete && el.naturalWidth > 0"))
+            self.assertIn("rc-black-to-alpha", logo.evaluate("(el) => getComputedStyle(el).filter"))
+        self.assertTrue(page.locator("filter#rc-black-to-alpha").count() == 1)
+        icon = page.locator('link[rel="icon"]')
+        self.assertEqual(icon.get_attribute("href"), "assets/favicon-rc-team.svg")
+        self.assertEqual(icon.get_attribute("type"), "image/svg+xml")
+        icon_path = ROOT / "assets" / "favicon-rc-team.svg"
+        self.assertTrue(icon_path.exists())
+        import base64
+        from xml.etree import ElementTree
+        root = ElementTree.fromstring(icon_path.read_text(encoding="utf-8"))
+        embedded = root.find("{http://www.w3.org/2000/svg}image")
+        self.assertIsNotNone(embedded)
+        data = embedded.attrib["href"].split(",", 1)[1]
+        self.assertTrue(base64.b64decode(data).startswith(b"\\x89PNG\\r\\n\\x1a\\n"))
+        page.close()
+
+    def test_media_collage_fills_grid_without_empty_cells(self):
+        for width in (320, 390, 768, 1280, 1920):
+            with self.subTest(width=width):
+                page = self.page(width)
+                measures = page.evaluate("""() => {
+                    const grid = document.querySelector(".media-grid").getBoundingClientRect();
+                    const tiles = [...document.querySelectorAll(".media-grid .media-tile")];
+                    const covered = tiles.reduce((sum, tile) => {
+                       const r = tile.getBoundingClientRect();
+                       return sum + r.width * r.height;
+                    }, 0);
+                    const last = tiles[tiles.length - 1].getBoundingClientRect();
+                    return {coverage:covered / (grid.width * grid.height),
+                      gridRight:grid.right,gridBottom:grid.bottom,
+                      lastRight:last.right,lastBottom:last.bottom};
+                }""")
+                self.assertGreater(measures["coverage"], .94,
+                    f"Media collage has visible blank cells at {width}px: {measures}")
+                self.assertAlmostEqual(measures["lastRight"], measures["gridRight"], delta=3)
+                self.assertAlmostEqual(measures["lastBottom"], measures["gridBottom"], delta=3)
+                page.close()
+
+
 if __name__ == "__main__":
     unittest.main()
