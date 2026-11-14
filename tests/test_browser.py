@@ -494,6 +494,56 @@ class BrowserSmoke(unittest.TestCase):
                 self.assertGreaterEqual(ratios["ratio"], 0.98, f"Filtered tiles leave trailing gap at {width}px: {ratios}")
                 page.close()
 
+    def test_laptop_hero_above_the_fold_and_no_overlap(self):
+        viewports = [
+            (1366, 610),
+            (1366, 768),
+            (1440, 800),
+            (1536, 864),
+            (1920, 1080),
+            (1024, 768),
+            (390, 844),
+        ]
+        for width, height in viewports:
+            with self.subTest(viewport=f"{width}x{height}"):
+                page = self.browser.new_page(
+                    viewport={"width": width, "height": height},
+                    reduced_motion="reduce",
+                    device_scale_factor=1,
+                )
+                page.goto(BASE, wait_until="domcontentloaded")
+                metrics = page.evaluate("""() => {
+                    const vh = window.innerHeight, vw = window.innerWidth;
+                    const h1 = document.querySelector(".hero h1").getBoundingClientRect();
+                    const lead = document.querySelector(".hero-lead").getBoundingClientRect();
+                    const cta = document.querySelector(".hero-actions .button-primary").getBoundingClientRect();
+                    const cap = document.querySelector(".hero-art-caption").getBoundingClientRect();
+                    const cardA = document.querySelector(".hero-art-card-a").getBoundingClientRect();
+                    const cardB = document.querySelector(".hero-art-card-b").getBoundingClientRect();
+                    const gap = (a, b) => Math.max(a.left - b.right, b.left - a.right, a.top - b.bottom, b.top - a.bottom);
+                    return {
+                        vh,
+                        overflow: document.documentElement.scrollWidth - vw,
+                        h1Size: parseFloat(getComputedStyle(document.querySelector(".hero h1")).fontSize),
+                        h1Bottom: h1.bottom,
+                        leadBottom: lead.bottom,
+                        ctaBottom: cta.bottom,
+                        gapCapCardA: gap(cap, cardA),
+                        gapCapCardB: gap(cap, cardB),
+                        gapCardACardB: gap(cardA, cardB),
+                    };
+                }""")
+                self.assertLessEqual(metrics["overflow"], 2, f"Overflow at {width}x{height}: {metrics}")
+                self.assertLessEqual(metrics["leadBottom"], height, f"Lead below fold at {width}x{height}: {metrics}")
+                self.assertLessEqual(metrics["ctaBottom"], height, f"CTA below fold at {width}x{height}: {metrics}")
+                min_gap = 10 if width <= 570 else 16
+                self.assertGreaterEqual(metrics["gapCapCardA"], min_gap, f"Caption/CardA overlap at {width}x{height}: {metrics}")
+                self.assertGreaterEqual(metrics["gapCapCardB"], min_gap, f"Caption/CardB overlap at {width}x{height}: {metrics}")
+                self.assertGreaterEqual(metrics["gapCardACardB"], min_gap, f"CardA/CardB overlap at {width}x{height}: {metrics}")
+                if (width, height) == (1920, 1080):
+                    self.assertGreaterEqual(metrics["h1Size"], 100.0, f"1920x1080 H1 unintentionally shrunk: {metrics}")
+                page.close()
+
 
 if __name__ == "__main__":
     unittest.main()

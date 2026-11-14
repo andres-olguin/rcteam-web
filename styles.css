@@ -434,3 +434,30 @@ html:not(.js) #contact-form{display:none}
   .media-grid.is-filtered{grid-template-columns:1fr}
   .media-grid.is-filtered .media-tile{height:230px}
 }
+
+/* Laptop viewport optimization: fit hero H1, lead and CTA above the fold without altering 1920x1080+ or mobile. */
+@media(min-width:851px) and (max-height:880px){
+  .hero{min-height:0;padding:118px 0 60px}
+  .hero h1{font-size:clamp(2.9rem,4.4vw,4.1rem);line-height:1;margin:18px 0 20px}
+  .hero-lead{margin-bottom:22px}
+  .hero-art{height:470px}
+  .hero-art-card-a{width:220px;height:114px;padding:15px 18px}
+  .hero-art-card-b{padding:16px 22px}
+  .hero-art-card-b strong{font-size:clamp(1.2rem,1.7vw,1.55rem)}
+  .hero-art-caption strong{font-size:1.5rem}
+}
+@media(min-width:851px) and (max-height:690px){
+  .hero{padding:98px 0 36px}
+  .hero h1{font-size:clamp(2.65rem,3.65vw,3.25rem);margin:12px 0 14px}
+  .hero-lead{font-size:.98rem;line-height:1.48;margin-bottom:18px}
+  .hero-actions .button{min-height:46px;padding:12px 22px}
+  .hero-art{height:410px}
+  .hero-art-card-a{top:4%;width:205px;height:104px;padding:12px 15px}
+  .hero-art-card-a .wave{height:48px}
+  .hero-art-card-b{padding:14px 18px}
+  .hero-art-card-b strong{font-size:1.3rem;margin-top:5px}
+  .hero-art-caption strong{font-size:1.35rem}
+}
+@media(min-width:851px) and (max-width:1140px) and (max-height:690px){
+  .hero-art-caption{top:130px}
+}
