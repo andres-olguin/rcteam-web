@@ -38,6 +38,11 @@ class SiteParser(HTMLParser):
         for key in LOCAL_ATTRS:
             if attrs.get(key):
                 self.links.append((tag, key, attrs[key]))
+        if attrs.get("srcset") and not attrs["srcset"].lstrip().startswith("data:"):
+            for candidate in attrs["srcset"].split(","):
+                parts = candidate.split()
+                if parts:
+                    self.links.append((tag, "srcset", parts[0]))
 
 
 def main():

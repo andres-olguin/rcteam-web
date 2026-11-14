@@ -37,7 +37,7 @@ Los detalles técnicos están en `docs/`; evitar crear documentos nuevos cuando 
 - Mosaico de medios con filtros: exterior, tradicionales y digital.
 - Sección Agencia inmediatamente después del Home, seguida de servicios, medios, proyecto destacado Declass, Team y contacto. Los logos históricos de medios siguen archivados en el repositorio, pero Rodrigo ordenó retirarlos de la interfaz.
 - Rodrigo Cornejo S.M. figura con la fotografía original en Team. Los cargos y demás integrantes siguen **pendientes de validación**.
-- Formulario **de demostración**: abre un borrador en el cliente de correo; no envía mensajes por backend.
+- Formulario **de demostración**: prepara un borrador en el cliente de correo y conserva una copia visible para pegar en otro servicio si `mailto:` no abre una aplicación. Sin JavaScript muestra alternativas de contacto; no envía mensajes por backend.
 - Recursos externos de Unsplash son **ilustrativos** y no son campañas de RC Team.
 
 ## Estrategia de contenido y UX

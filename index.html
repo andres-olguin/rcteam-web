@@ -2,6 +2,7 @@
 <html lang="es-CL">
 <head>
   <meta charset="utf-8">
+  <script>document.documentElement.classList.add("js");</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07172b">
   <meta name="description" content="RC Team Chile: planificación, negociación y desarrollo de estrategias de medios que conectan marcas con oportunidades y optimizan cada inversión.">
@@ -174,7 +175,7 @@
       <div class="shell case-grid">
         <div class="case-preview">
           <picture>
-            <source media="(max-width: 570px)" srcset="images/declassmobile.png">
+            <source media="(max-width: 570px)" srcset="images/declass-mobile.webp" type="image/webp">
             <img src="images/declass.jpg" alt="Vista del proyecto Declass presentado en la web original de RC Team" width="980" height="620" loading="lazy" decoding="async">
           </picture>
         </div>
@@ -194,7 +195,7 @@
           <p class="team-notice">Sección en preparación. La foto de Rodrigo procede del sitio original. Los cargos y las fotografías de los demás integrantes requieren confirmación.</p>
         </div>
         <div class="team-grid" role="group" aria-label="Equipo y perfiles por confirmar">
-          <article class="team-placeholder team-confirmed"><img class="team-photo" src="images/PERFIL.png" alt="Rodrigo Cornejo S.M., imagen incluida en el sitio anterior" width="500" height="550" loading="lazy" decoding="async"><span>RC TEAM</span><h3>Rodrigo Cornejo S.M.</h3><p>Cargo por confirmar</p></article>
+          <article class="team-placeholder team-confirmed"><img class="team-photo" src="images/rodrigo-cornejo.webp" alt="Rodrigo Cornejo S.M., imagen incluida en el sitio anterior" width="1000" height="1000" loading="lazy" decoding="async"><span>RC TEAM</span><h3>Rodrigo Cornejo S.M.</h3><p>Cargo por confirmar</p></article>
           <div class="team-placeholder"><div class="avatar-silhouette" aria-hidden="true"></div><span>PERFIL 02</span><p>Por confirmar</p></div>
           <div class="team-placeholder"><div class="avatar-silhouette" aria-hidden="true"></div><span>PERFIL 03</span><p>Por confirmar</p></div>
           <div class="team-placeholder"><div class="avatar-silhouette" aria-hidden="true"></div><span>PERFIL 04</span><p>Por confirmar</p></div>
@@ -221,6 +222,7 @@
           <div class="form-panel">
             <p class="form-kicker">ESCRÍBENOS</p>
             <p class="demo-warning">Vista previa: el formulario todavía no envía mensajes. Para contactar a RC Team, utiliza el correo o WhatsApp.</p>
+            <noscript><p>Para preparar una consulta necesitas JavaScript. Escribe a <a href="mailto:contacto@rcteam.cl">contacto@rcteam.cl</a> desde tu correo o utiliza WhatsApp.</p></noscript>
             <form id="contact-form" action="#" method="post">
               <div class="field-grid">
                 <label>Nombre <input name="nombre" autocomplete="name" placeholder="Tu nombre" required></label>
@@ -233,6 +235,10 @@
               <label>¿En qué podemos ayudarte? <textarea name="mensaje" rows="3" placeholder="Cuéntanos sobre tu objetivo" required></textarea></label>
               <button class="button button-primary" type="submit">Preparar consulta <span aria-hidden="true">↗</span></button>
               <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
+              <div id="mail-fallback" hidden>
+                <p>Si no se abre tu correo, <a id="mail-draft-link" href="mailto:contacto@rcteam.cl">intenta abrir el borrador</a> o copia estos datos en tu servicio de correo. No se ha enviado ningún mensaje.</p>
+                <label>Consulta para copiar <textarea id="mail-draft-copy" rows="8" readonly></textarea></label>
+              </div>
               <p class="contact-disclaimer">Este formulario de demostración prepara un correo en tu dispositivo. La maqueta no almacena tus datos ni envía mensajes automáticamente.</p>
             </form>
           </div>

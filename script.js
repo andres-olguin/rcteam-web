@@ -1,5 +1,6 @@
 (() => {
   "use strict";
+  document.documentElement.classList.add("js");
   const header = document.querySelector(".site-header");
   const nav = document.getElementById("main-nav");
   const toggle = document.querySelector(".menu-toggle");
@@ -90,8 +91,17 @@
   // making an unapproved live submission to the client's FormSubmit endpoint.
   const form = document.getElementById("contact-form");
   const feedback = document.getElementById("form-feedback");
+  form?.querySelectorAll("[required]").forEach((field) => {
+    const validate = () => field.setCustomValidity(
+      field.value.trim() ? "" : "Completa este campo sin usar solo espacios."
+    );
+    field.addEventListener("input", validate);
+  });
   form?.addEventListener("submit", (event) => {
     event.preventDefault();
+    form.querySelectorAll("[required]").forEach((field) => {
+      field.setCustomValidity(field.value.trim() ? "" : "Completa este campo sin usar solo espacios.");
+    });
     if (!form.reportValidity()) return;
     const data = new FormData(form);
     const name = String(data.get("nombre") || "").trim();
@@ -106,6 +116,9 @@
       + (project ? "\nProyecto: " + project : "")
       + "\n\nMensaje:\n" + message;
     const url = "mailto:contacto@rcteam.cl?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    document.getElementById("mail-draft-link").href = url;
+    document.getElementById("mail-draft-copy").value = "Para: contacto@rcteam.cl\nAsunto: " + subject + "\n\n" + body;
+    document.getElementById("mail-fallback").hidden = false;
     feedback.textContent = "Se preparará un borrador en tu aplicación de correo. El envío queda a tu cargo.";
     window.location.href = url;
   });

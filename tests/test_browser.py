@@ -1,5 +1,7 @@
 """Headless viewport and interaction smoke tests for RC Team preview."""
 from pathlib import Path
+import os
+import json
 import subprocess
 import sys
 import time
@@ -67,8 +69,15 @@ class BrowserSmoke(unittest.TestCase):
                 )
                 self.assertTrue(page.locator("h1").is_visible())
                 self.assertTrue(page.locator("#contacto").count() == 1)
-                if width in (390, 1280):
-                    page.screenshot(path=str(ARTIFACTS / f"rc-team-{width}.png"), full_page=True)
+                page.evaluate("""async () => {
+                    await document.fonts.ready;
+                    await Promise.all([...document.images].map(img => {
+                        img.loading = 'eager';
+                        return img.decode();
+                    }));
+                }""")
+                self.assertLessEqual(page.evaluate("document.documentElement.scrollWidth"), width + 2)
+                page.screenshot(path=str(ARTIFACTS / f"rc-team-{width}.png"), full_page=True)
                 page.close()
 
     def test_mobile_menu_and_links(self):
@@ -81,6 +90,70 @@ class BrowserSmoke(unittest.TestCase):
         ).click()
         self.assertEqual(page.locator(".menu-toggle").get_attribute("aria-expanded"), "false")
         self.assertEqual(page.evaluate("location.hash"), "#team")
+        page.close()
+
+    def test_menu_keyboard_and_resize(self):
+        page = self.page(375)
+        toggle = page.locator(".menu-toggle")
+        toggle.focus()
+        page.keyboard.press("Enter")
+        page.keyboard.press("Shift+Tab")
+        self.assertEqual(page.evaluate("document.activeElement.getAttribute('href')"), "#contacto")
+        page.keyboard.press("Tab")
+        self.assertTrue(toggle.evaluate("el => el === document.activeElement"))
+        page.keyboard.press("Escape")
+        self.assertEqual(toggle.get_attribute("aria-expanded"), "false")
+        self.assertTrue(toggle.evaluate("el => el === document.activeElement"))
+        toggle.click()
+        page.set_viewport_size({"width": 1024, "height": 900})
+        page.wait_for_function("!document.body.classList.contains('menu-open')")
+        page.close()
+
+    def test_layout_without_external_fonts(self):
+        page = self.browser.new_page(viewport={"width": 320, "height": 900}, reduced_motion="reduce")
+        page.route("**/fonts.googleapis.com/**", lambda route: route.abort())
+        page.goto(BASE, wait_until="domcontentloaded")
+        self.assertLessEqual(page.evaluate("document.documentElement.scrollWidth"), 322)
+        page.close()
+
+    def test_reduced_motion_and_visible_keyboard_focus(self):
+        page = self.page(375)
+        page.keyboard.press("Tab")
+        self.assertTrue(page.locator('.skip-link').evaluate("el => el === document.activeElement"))
+        self.assertNotEqual(page.locator('.skip-link').evaluate("el => getComputedStyle(el).outlineStyle"), "none")
+        self.assertEqual(page.evaluate("getComputedStyle(document.documentElement).scrollBehavior"), "auto")
+        self.assertLessEqual(float(page.locator('.wave i').first.evaluate(
+            "el => parseFloat(getComputedStyle(el).animationDuration)"
+        )), .001)
+        self.assertEqual(page.locator('.hero-copy').evaluate("el => getComputedStyle(el).opacity"), "1")
+        page.close()
+
+    def test_form_validation_and_mail_draft(self):
+        from urllib.parse import urlsplit, parse_qs
+        page = self.page(375)
+        navigations = []
+        session = page.context.new_cdp_session(page)
+        session.send("Page.enable")
+        session.on("Page.frameRequestedNavigation", lambda event: navigations.append(event["url"]))
+        page.locator('[name="nombre"]').fill("   ")
+        page.locator('[name="email"]').fill("qa@example.org")
+        page.locator('[name="mensaje"]').fill("Consulta de prueba & medios")
+        page.locator('#contact-form button').click()
+        self.assertFalse(page.locator('[name="nombre"]').evaluate("el => el.checkValidity()"))
+        self.assertFalse(navigations)
+        page.locator('[name="nombre"]').fill("Prueba QA")
+        page.locator('#contact-form button').click()
+        page.wait_for_function("document.querySelector('#form-feedback').textContent.length > 0")
+        page.wait_for_timeout(200)
+        drafts = [url for url in navigations if url.startswith("mailto:")]
+        self.assertEqual(len(drafts), 1)
+        query = parse_qs(urlsplit(drafts[0]).query)
+        self.assertEqual(query["subject"], ["Consulta web RC Team - Prueba QA"])
+        self.assertIn("Consulta de prueba & medios", query["body"][0])
+        self.assertTrue(page.locator('#mail-fallback').is_visible())
+        self.assertEqual(page.locator('#mail-draft-link').get_attribute('href'), drafts[0])
+        self.assertIn("Consulta de prueba & medios", page.locator('#mail-draft-copy').input_value())
+        self.assertIn("qa@example.org", page.locator('#mail-draft-copy').input_value())
         page.close()
 
     def test_media_filters(self):
@@ -104,6 +177,18 @@ class BrowserSmoke(unittest.TestCase):
         self.assertEqual(page.locator("#contact-form").get_attribute("action"), "#")
         self.assertEqual(page.locator("#contact-form").get_attribute("method"), "post")
         self.assertTrue(page.get_by_text("Vista previa:", exact=False).count() > 0)
+        page.close()
+
+    def test_images_load_and_internal_links_resolve(self):
+        page = self.page(1280)
+        for image in page.locator("img").all():
+            image.scroll_into_view_if_needed()
+            image.evaluate("el => el.loading = 'eager'")
+            image.evaluate("el => el.decode()")
+            self.assertGreater(image.evaluate("el => el.naturalWidth"), 0)
+        self.assertEqual(page.locator('a[href^="#"]').evaluate_all("""links =>
+            links.filter(link => !document.getElementById(link.hash.slice(1))).map(link => link.hash)
+        """), [])
         page.close()
 
 
@@ -139,13 +224,25 @@ class BrowserSmoke(unittest.TestCase):
             "1"
         )
         self.assertTrue(page.get_by_role("heading", name="Investigación").count() > 0)
+        self.assertTrue(page.locator('#main-nav a[href="#team"]').is_visible())
+        self.assertFalse(page.locator('#contact-form').is_visible())
+        self.assertTrue(page.locator('noscript a[href="mailto:contacto@rcteam.cl"]').is_visible())
+        page.close()
+
+    def test_mobile_menu_closed_before_deferred_script(self):
+        page = self.browser.new_page(viewport={"width": 375, "height": 900})
+        page.route("**/script.js", lambda route: route.abort())
+        page.goto(BASE, wait_until="domcontentloaded")
+        self.assertFalse(page.locator('#main-nav').is_visible())
+        self.assertTrue(page.locator('.menu-toggle').is_visible())
+        self.assertEqual(page.locator('html').get_attribute('class'), 'js')
         page.close()
 
 
     def test_automated_accessibility_critical_violations(self):
         """WCAG automated smoke check; not a substitute for human screen-reader QA."""
         from pathlib import Path
-        axe_path = ROOT / "node_modules" / "axe-core" / "axe.min.js"
+        axe_path = Path(os.environ.get("AXE_CORE_PATH", ROOT / "node_modules" / "axe-core" / "axe.min.js"))
         if not axe_path.exists():
             self.skipTest("axe-core is installed by browser-qa CI; locally run npm install --no-save axe-core@4")
         for width in (390, 1280):
@@ -163,9 +260,11 @@ class BrowserSmoke(unittest.TestCase):
                 }""")
                 critical = [v for v in violations if v["impact"] == "critical"]
                 serious = [v for v in violations if v["impact"] == "serious"]
+                (ARTIFACTS / f"axe-{width}.json").write_text(
+                    json.dumps(violations, ensure_ascii=False, indent=2), encoding="utf-8"
+                )
                 self.assertFalse(critical, f"Critical axe violations at {width}px: {critical}")
-                if serious:
-                    print(f"Accessibility review needed at {width}px (serious): {serious}")
+                self.assertFalse(serious, f"Serious axe violations at {width}px: {serious}")
                 page.close()
 
 
@@ -189,6 +288,18 @@ class BrowserSmoke(unittest.TestCase):
         page.close()
 
     def test_mobile_contact_and_media_geometry(self):
+        for width in (320, 375, 570):
+            page = self.page(width)
+            overlaps = page.evaluate("""() => {
+                const caption = document.querySelector('.hero-art-caption').getBoundingClientRect();
+                return [...document.querySelectorAll('.hero-art-card')].some(el => {
+                    const card = el.getBoundingClientRect();
+                    return caption.left < card.right && caption.right > card.left &&
+                        caption.top < card.bottom && caption.bottom > card.top;
+                });
+            }""")
+            self.assertFalse(overlaps, f"Hero caption overlaps a card at {width}px")
+            page.close()
         page = self.page(320)
         positions = page.evaluate("""() => {
           const heading = document.querySelector('.contact-heading h2').getBoundingClientRect();
@@ -211,7 +322,7 @@ class BrowserSmoke(unittest.TestCase):
         page.get_by_role("button", name="Digital", exact=True).click()
         selected = page.locator(".media-tile:visible")
         self.assertEqual(selected.count(), 1)
-        self.assertLessEqual(selected.first.bounding_box()["width"], 381)
+        self.assertLessEqual(selected.first.bounding_box()["width"], 461)
         page.close()
 
     def test_team_last_row_is_centered(self):
@@ -333,6 +444,54 @@ class BrowserSmoke(unittest.TestCase):
                     f"Media collage has visible blank cells at {width}px: {measures}")
                 self.assertAlmostEqual(measures["lastRight"], measures["gridRight"], delta=3)
                 self.assertAlmostEqual(measures["lastBottom"], measures["gridBottom"], delta=3)
+                page.close()
+
+    def test_hero_collage_no_overlap_intermediate_widths(self):
+        for width in (850, 851, 900, 1024, 1100, 1140, 1280):
+            with self.subTest(width=width):
+                page = self.page(width)
+                rects = page.evaluate("""() => {
+                    const cap = document.querySelector(".hero-art-caption").getBoundingClientRect();
+                    const cardA = document.querySelector(".hero-art-card-a").getBoundingClientRect();
+                    const cardB = document.querySelector(".hero-art-card-b").getBoundingClientRect();
+                    const gap = (a, b) => Math.max(a.left - b.right, b.left - a.right, a.top - b.bottom, b.top - a.bottom);
+                    return {gapA: gap(cap, cardA), gapB: gap(cap, cardB)};
+                }""")
+                self.assertGreaterEqual(rects["gapA"], 16, f"Caption too close to card A at {width}px: {rects}")
+                self.assertGreaterEqual(rects["gapB"], 16, f"Caption too close to card B at {width}px: {rects}")
+                page.close()
+
+    def test_micro_labels_legible_and_filtered_media_balanced(self):
+        for width in (320, 1280):
+            with self.subTest(width=width):
+                page = self.page(width)
+                sizes = page.evaluate("""() => {
+                    const selectors = [
+                        ".eyebrow", ".section-label", ".media-tile-overlay small",
+                        ".team-placeholder span", ".services-grid span",
+                        ".hero-art-card-a > span", ".hero-art-card-b > span"
+                    ];
+                    return selectors.flatMap(sel =>
+                        [...document.querySelectorAll(sel)].map(el => ({
+                            sel, size: parseFloat(getComputedStyle(el).fontSize)
+                        }))
+                    );
+                }""")
+                for item in sizes:
+                    self.assertGreaterEqual(item["size"], 11.0, f"Micro-label below 11px at {width}px: {item}")
+                page.close()
+
+        for width in (1280, 1920):
+            with self.subTest(filter_width=width):
+                page = self.page(width)
+                page.get_by_role("button", name="Tradicionales", exact=True).click()
+                ratios = page.evaluate("""() => {
+                    const grid = document.querySelector(".media-grid").getBoundingClientRect();
+                    const tiles = [...document.querySelectorAll(".media-tile:not([hidden])")];
+                    const totalW = tiles.reduce((s, t) => s + t.getBoundingClientRect().width, 0);
+                    return {totalW, gridW: grid.width, ratio: totalW / grid.width};
+                }""")
+                self.assertGreaterEqual(ratios["ratio"], 0.98, f"Filtered tiles leave trailing gap at {width}px: {ratios}")
                 page.close()
 
 

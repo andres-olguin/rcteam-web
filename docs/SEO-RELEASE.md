@@ -16,6 +16,8 @@ Para la vista previa:
 
 La GitHub Action `.github/workflows/pages.yml` ejecuta ese mismo constructor para `_site` y **no** habilita SEO de producción.
 
+El constructor rechaza destinos dentro de activos, documentación, scripts, pruebas y configuración Git, además de la raíz y sus ancestros. Para preview también rechaza un destino que ya contenga `robots.txt` o `sitemap.xml`; usar una carpeta limpia para no mezclar archivos de producción.
+
 Para una versión oficial, después de aprobación explícita y de completar las dependencias:
 
     python scripts/build_site.py --target production --approved-client-release --out dist/production
@@ -61,6 +63,6 @@ Si se mueve el HTML a `vistas/index.html` y `assets/` permanece en la raíz del 
 El uso de rutas relativas es portable entre hosts **siempre que se conserve la estructura de directorios y la ubicación del HTML**. Mover `index.html` fuera de la raíz también afectaría el punto de entrada de GitHub Pages.
 
 ## Riesgos conocidos para el lanzamiento
-Form endpoint real, protección anti-spam, información de privacidad y consentimiento; imágenes de terceros; logos de medios; fotografía grande de Rodrigo; contenido de Team; enlaces externos; OG social image especializada; revisión móvil de navegación y rendimiento.
+Endpoint de formulario real, protección anti-spam, información de privacidad y consentimiento; permisos de imágenes de terceros; contenido de Team; enlaces externos; imagen social OG especializada; validación final de navegación y rendimiento. La foto de Rodrigo y Declass móvil usan variantes WebP derivadas; los originales siguen archivados. Los logos históricos de medios están archivados y no aparecen en la interfaz. La preview solo prepara un borrador local con respaldo copiable y ofrece alternativas de contacto sin JavaScript.
 
 Ver [MIGRATION.md](MIGRATION.md), [QA-CHECKLIST.md](QA-CHECKLIST.md) e Issue #7.
