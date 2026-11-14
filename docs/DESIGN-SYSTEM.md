@@ -15,7 +15,7 @@ Referencia aprobada como línea estética, no como composición pixel a pixel: c
 Las variables están en styles.css. No convertir el sitio en un framework sin una necesidad técnica confirmada.
 
 ## Secciones
-Hero; estrategia y servicios; metodología; mosaico de medios con filtros; eficiencia; territorios; filosofía; Team; contacto.
+Home/hero; Agencia inmediatamente después; estrategia en cuatro etapas y cinco servicios; mosaico de medios con filtros; proyecto destacado Declass; Team; contacto. Los bloques de metodología independiente, eficiencia, territorios y filosofía fueron eliminados por instrucción del cliente.
 
 ## Responsive y accesibilidad
 Desktop ancho máximo de 1330 px. Tablet 850 px. Móvil 570 px. Probar además a 320 px.

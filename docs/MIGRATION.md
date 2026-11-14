@@ -15,14 +15,14 @@ El respaldo importado conserva el trabajo freelance original; el rediseño se ge
 - `styles.css` y `script.js` originales preservados en el historial Git.
 
 ## Inventario del rediseño
-- Hero editorial, agencia, cuatro etapas de ejecución, cinco servicios originales, metodología, mosaico de medios, referencias de medios, Declass, eficiencia, territorios, filosofía, Team y contacto.
+- Tras corrección v2: Hero editorial; Agencia inmediatamente después del Home; cuatro etapas y cinco servicios originales; mosaico de medios sin fila histórica de logos; Declass sin botón y con texto enviado por Rodrigo; Team y contacto. Se retiraron metodología independiente, eficiencia, territorios y filosofía.
 - Nuevo logo negro/blanco comprimido.
 - JS de menú, filtros y preparación de consulta por correo.
 - Los textos y recursos de propuesta no acreditan aprobación de Rodrigo.
 
 ## Antes de reemplazar el sitio vigente
 1. Conseguir aprobación escrita del diseño y contenido.
-2. Confirmar los cinco servicios, logos de medios y participación en Declass.
+2. Confirmar los cinco servicios; registrar eliminación pública de los logos de medios y respaldar las afirmaciones suministradas por el cliente para Declass.
 3. Recibir fotos, nombres y cargos con autorización para publicación.
 4. Confirmar correos, WhatsApp y teléfonos.
 5. Resolver el mecanismo de formulario **real** (protección anti-spam, finalidad, datos tratados y aviso de privacidad revisado).

@@ -14,7 +14,9 @@
 - [ ] Navegación Team y Contacto funciona.
 - [ ] Rodrigo aparece como figura identificada por el sitio anterior y se aclara que su cargo está pendiente.
 - [ ] Otros perfiles pendientes no se confunden con personas reales.
-- [ ] Se preservaron los cinco servicios, los logos de medios originales y la referencia Declass.
+- [ ] Se preservaron los cinco servicios, se retiraron de la interfaz los logos históricos por petición del cliente y se mantiene la referencia visual a Declass.
+- [ ] Se siguen las correcciones de las 7 diapositivas de Rodrigo: textos exactos, orden Home→Agencia, secciones retiradas, Declass sin botón, contacto y footer.
+- [ ] La afirmación sobre el encargo a Declass y los más de 23.000 documentos proviene del cliente; confirmar antes de producción.
 - [ ] El footer es landmark contentinfo y el contenido sigue visible si JavaScript está desactivado.
 - [ ] Los filtros actualizan el mensaje accesible con el número de categorías visibles.
 - [ ] Formulario de demostración usa POST como fallback sin añadir datos personales a la URL; con JS prepara correo, sin envío automático.

@@ -26,3 +26,7 @@ Antes de publicación oficial, revisar con Rodrigo y reemplazar elementos de dem
 - Logotipos de medios en `images/`: Pauta, Mega, TXS, Infinita, El Mostrador, The Clinic, Tele13, Cooperativa, Emol y otro archivo sin identificar `diario.png`.
 
 Su presencia en el sitio anterior no confirma relación contractual, patrocinios ni licencias de reproducción. Validar con Rodrigo antes del lanzamiento oficial.
+
+
+## Correcciones editoriales v2
+Por instrucción del cliente se retiró de la página la franja de logos históricos. Los archivos originales continúan en `images/` como respaldo, pero ya no se muestran en GitHub Pages. Rodrigo anunció el envío de fotos del equipo y la futura sustitución de algunas imágenes de fondo; el material aún está pendiente.
