@@ -115,8 +115,9 @@ class BrowserSmoke(unittest.TestCase):
         ):
             self.assertGreater(page.get_by_role("heading", name=heading, exact=True).count(), 0)
         self.assertEqual(page.get_by_role("heading", name="Rodrigo Cornejo S.M.").count(), 1)
-        self.assertEqual(page.locator(".media-history-logos img").count(), 9)
-        self.assertTrue(page.locator('a[href="https://www.declasseeuucl.cl"]').count() > 0)
+        self.assertEqual(page.locator(".media-history").count(), 0)
+        self.assertEqual(page.locator('a[href="https://www.declasseeuucl.cl"]').count(), 0)
+        self.assertGreater(page.get_by_text("23.000 documentos", exact=False).count(), 0)
         self.assertTrue(page.locator('a[href="tel:+56993324792"]').count() > 0)
         self.assertTrue(page.locator('a[href="tel:+56923888013"]').count() > 0)
         self.assertEqual(page.get_by_role("contentinfo").count(), 1)
@@ -237,6 +238,51 @@ class BrowserSmoke(unittest.TestCase):
         page.mouse.click(8, 880)
         self.assertEqual(toggle.get_attribute("aria-expanded"), "false")
         self.assertFalse(page.locator("body").evaluate("(el) => el.classList.contains('menu-open')"))
+        page.close()
+
+
+
+    def test_rodrigo_v2_content_and_section_order(self):
+        page = self.page(1280)
+        normalized = lambda locator: " ".join(locator.inner_text().split())
+        self.assertIn("Vamos más allá de la pauta.", normalized(page.locator("#hero-title")))
+        self.assertIn("Pensamos, planificamos", normalized(page.locator("#strategy-title")))
+        self.assertIn("Cada desafío merece una estrategia a su medida.", normalized(page.locator(".catalog-intro h3")))
+        self.assertIn("Conectamos marcas", normalized(page.locator("#media-title")))
+        self.assertIn("Un proyecto de alcance internacional.", normalized(page.locator("#case-title")))
+        self.assertIn("Las buenas estrategias", normalized(page.locator("#contact-title")))
+        self.assertEqual(page.locator(".hero-footnote").count(), 0)
+        self.assertEqual(page.locator(".media-history").count(), 0)
+        self.assertEqual(page.locator("#metodo, .investment, #territorios, .values").count(), 0)
+        self.assertEqual(page.locator('a[href="#metodo"]').count(), 0)
+        self.assertEqual(page.locator(".case-study .button").count(), 0)
+        self.assertTrue(page.locator(".agency-section").evaluate(
+            "(el) => el.previousElementSibling?.classList.contains('hero')"
+        ))
+        self.assertTrue(page.locator(".strategy").evaluate(
+            "(el) => el.previousElementSibling?.classList.contains('agency-section')"
+        ))
+        self.assertGreater(page.get_by_text("Vamos por un café y conversamos!", exact=True).count(), 0)
+        self.assertGreater(page.get_by_text("O iniciamos una conversación por WhatsApp", exact=False).count(), 0)
+        self.assertTrue(page.locator('meta[name="robots"][content="noindex,nofollow"]').count() == 1)
+        page.close()
+
+    def test_rodrigo_v2_timeline_and_declass_copy(self):
+        page = self.page(1024)
+        cards = page.locator(".strategy .timeline article")
+        self.assertEqual(cards.count(), 4)
+        expected = [
+            "Cada decisión comienza con una buena estrategia.",
+            "Nuestro conocimiento se transforma en valor.",
+            "De las ideas a la acción.",
+            "Los resultados respaldan cada decisión.",
+        ]
+        for i, title in enumerate(expected):
+            self.assertEqual(" ".join(cards.nth(i).locator("h3").inner_text().split()), title)
+        paragraph = " ".join(page.locator(".case-copy p").inner_text().split())
+        self.assertIn("Embajada de los Estados Unidos", paragraph)
+        self.assertIn("más de 23.000 documentos", paragraph)
+        self.assertIn("FBI, la CIA, la NSA", paragraph)
         page.close()
 
 

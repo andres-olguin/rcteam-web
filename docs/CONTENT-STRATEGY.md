@@ -13,14 +13,13 @@ La actualización solicitada es **editorial y comercial**, con una línea azul/n
 - **Acción secundaria:** conocer servicios, método y referencias antes de contactar.
 
 ## Recorrido propuesto de usuario
-1. **Atención / Hero:** mensaje de alto impacto, identificación clara y CTA visible. Beneficio propuesto: movilizar la estrategia, sin prometer resultados no verificables.
+1. **Atención / Hero:** texto indicado por Rodrigo: «Conocemos los medios. Vamos más allá de la pauta», CTA visible y síntesis editorial.
 2. **Credibilidad / Agencia:** recuperar la presentación original y la presencia de Rodrigo, sin atribuir cargos no confirmados.
 3. **Oferta / Servicios:** diferenciar las cinco líneas que ya se comunicaban en el sitio anterior de las cuatro etapas operativas de la referencia visual.
-4. **Comprensión / Cómo trabajamos:** facilitar lectura secuencial de un proceso que requiere validación del cliente; un proceso propuesto no es un método corporativo acreditado.
-5. **Exploración / Medios:** mosaico visual y filtros, seguidos de logos presentes en el sitio anterior. **No presumir aval o relación comercial** por el solo uso de un logo.
-6. **Evidencia / Declass:** presencia en la web original, sin inventar alcance, métricas ni testimonios.
-7. **Personas / Team:** presentar Rodrigo únicamente con los datos ya públicos del sitio previo; completar los otros perfiles con consentimiento.
-8. **Conversión / Contacto:** enlaces directos y formulario de maqueta. El formulario de producción debe ser funcional, informado y validado.
+4. **Exploración / Medios:** mosaico visual y filtros. La antigua fila de logotipos se elimina de la interfaz por instrucción directa del cliente.
+5. **Evidencia / Declass:** imagen y texto de proyecto destacado aportado por Rodrigo, sin botón externo; verificar afirmaciones antes de producción.
+6. **Personas / Team:** Rodrigo con información previamente pública; completar los otros perfiles con consentimiento.
+7. **Conversión / Contacto:** invitación al café, acceso a WhatsApp y formulario de maqueta sin envío automático.
 
 ## Reglas de contenido
 - Evitar cifras, clientes, años, certificaciones, logos de colaboración o testimonios sin documentación y aprobación.
@@ -32,13 +31,12 @@ La actualización solicitada es **editorial y comercial**, con una línea azul/n
 ## Arquitectura de información
 - **Agencia** tiene un bloque propio y no duplica Servicios.
 - **Qué hacemos** muestra etapas de ejecución y el catálogo original de servicios.
-- **Medios** reúne formatos y referencias históricas.
-- **Cómo trabajamos** explica el proceso propuesto.
+- **Medios** reúne formatos visuales y filtros, sin fila de logos históricos.
 - **Team** introduce personas, sujeto a entrega de datos.
 - **Contacto** concentra conversión y canales.
 
 ## Evidencia y validación pendiente
-Consultar [CONTENT.md](CONTENT.md). Rodrigo debe confirmar: perfil y cargos, cobertura geográfica, servicios vigentes, relación exacta con Declass, derechos sobre logos, textos de valores y mecanismo final de contacto.
+Consultar [CONTENT.md](CONTENT.md). Rodrigo debe confirmar: perfil y cargos, fotografías que enviará, servicios vigentes, respaldo de las afirmaciones nuevas de Declass, imágenes de fondo y mecanismo final de contacto.
 
 ## Medición futura (no configurada)
 Se pueden evaluar eventos de clic en contacto, correo y navegación, siempre con configuración consciente de privacidad y sin publicar cifras hasta contar con registros válidos. No se ha integrado analítica ni se afirma mejora de conversiones.
