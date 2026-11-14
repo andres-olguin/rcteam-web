@@ -305,7 +305,7 @@ class BrowserSmoke(unittest.TestCase):
         embedded = root.find("{http://www.w3.org/2000/svg}image")
         self.assertIsNotNone(embedded)
         data = embedded.attrib["href"].split(",", 1)[1]
-        self.assertTrue(base64.b64decode(data).startswith(b"\\x89PNG\\r\\n\\x1a\\n"))
+        self.assertTrue(base64.b64decode(data).startswith(b"\x89PNG\r\n\x1a\n"))
         page.close()
 
     def test_media_collage_fills_grid_without_empty_cells(self):
