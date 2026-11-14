@@ -8,9 +8,10 @@
 ## Visual y funcional
 - [ ] Probar 320, 375, 390, 768, 1024, 1280 y 1920 px.
 - [ ] Sin desbordamientos, roturas, texto cortado ni imágenes faltantes.
-- [ ] Logo nuevo legible sobre fondo oscuro.
+- [ ] Logo nuevo legible sobre fondo oscuro y sin rectángulo negro en header y footer.
+- [ ] Favicon nuevo con isotipo RC visible en una pestaña limpia (sin caché del anterior).
 - [ ] Menú responsive, foco accesible y cierre con Escape.
-- [ ] Filtros de medios funcionan.
+- [ ] Filtros de medios funcionan y las seis tarjetas del mosaico no dejan columnas/filas vacías en escritorio, tablet o móvil.
 - [ ] Navegación Team y Contacto funciona.
 - [ ] Rodrigo aparece como figura identificada por el sitio anterior y se aclara que su cargo está pendiente.
 - [ ] Otros perfiles pendientes no se confunden con personas reales.
