@@ -49,3 +49,4 @@ Derivados web de archivos enviados por Rodrigo por WhatsApp (20, 23 y 24-11-2026
 - `images/tres-mentes-logo-transparente.png`: copia del PNG transparente «TR3S_MENTES_Logo_Transparente_1500px.png».
 - `assets/logo-tres-mentes-blanco.webp`: versión para fondo oscuro derivada del PNG transparente. Texto azul marino y gris pasados a blanco, «3» azul #0066FF sin cambios, márgenes transparentes recortados. No se redibujó el logo. Si Rodrigo tiene una versión negativa oficial, reemplazarla.
 
+- `images/hero-fondo-ciudad-noche.webp` (25-11-2026): imagen enviada por Rodrigo por WhatsApp («Esta sería la imagen grande a reemplazar»), 1376×768 px, WebP calidad 84. Reemplaza la foto de Unsplash del hero (fondo y collage). La licencia de uso es responsabilidad del cliente; resolución algo baja para pantallas de 1920 px o más.
