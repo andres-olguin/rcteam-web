@@ -68,3 +68,9 @@ Decisiones de maqueta sin confirmación expresa del cliente: orden de las tarjet
 
 Rodrigo también informó que reenvió por correo los accesos al hosting. Esos accesos no se registran en el repositorio y no autorizan por sí solos el despliegue en rcteam.cl.
 
+
+## Ajuste hero laptop y Team — 25 de noviembre de 2026
+Dirección revisó la preview en Opera (pantalla 1366×768, área útil ~1324×608) tras el PR #21: el CSS del PR #19 sí se aplicaba, pero el hero quedaba pequeño (titular 48 px) con una franja vacía bajo el CTA, y la foto grupal ocupaba casi toda la pantalla.
+- Hero en laptops: ocupa el alto visible y el titular escala con la altura (65 px en ~1324×608). 1920×1080 y móvil sin cambios.
+- Foto grupal junto al titular de Team, sin recorte.
+- Footer: «Desarrollo web por MasterTech» (marca comercial, sin la forma jurídica).
