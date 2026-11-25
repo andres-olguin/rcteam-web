@@ -37,7 +37,7 @@ En el respaldo: `images/Pauta.png`, `mega.png`, `TXS.png`, `infinita.png`, `most
 ## Proyectos del portafolio original
 **Declass**: visual `images/declass.jpg` y versión móvil `images/declassmobile.png`, con enlace externo `https://www.declasseeuucl.cl` presente en el HTML original.
 
-**Pendiente:** descripción verificable de la participación exacta de RC Team, alcance, fecha, resultados, titularidad del material y autorización para presentar caso de éxito. En las correcciones v2 Rodrigo suministró una redacción más específica sobre la Embajada de EE. UU., la digitalización de más de 23.000 documentos y organismos citados. Se reproduce su texto en la maqueta; queda pendiente verificación documental y autorización definitiva para producción.
+**Pendiente:** descripción verificable de la participación exacta de RC Team, alcance, fecha, resultados, titularidad del material y autorización para presentar caso de éxito. En las correcciones v2 Rodrigo suministró una redacción más específica sobre la Embajada de EE. UU., la digitalización de más de 23.000 documentos y organismos citados. Se reproduce su texto en la maqueta. Rodrigo lo confirmó por WhatsApp el 25-11-2026; MasterTech no lo ha verificado de forma independiente.
 
 ## Canales de contacto anteriores
 - Correo: `contacto@rcteam.cl`.

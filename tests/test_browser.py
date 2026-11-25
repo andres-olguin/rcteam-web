@@ -138,11 +138,11 @@ class BrowserSmoke(unittest.TestCase):
         page.locator('[name="nombre"]').fill("   ")
         page.locator('[name="email"]').fill("qa@example.org")
         page.locator('[name="mensaje"]').fill("Consulta de prueba & medios")
-        page.locator('#contact-form button').click()
+        page.locator('#contact-form button[value="correo"]').click()
         self.assertFalse(page.locator('[name="nombre"]').evaluate("el => el.checkValidity()"))
         self.assertFalse(navigations)
         page.locator('[name="nombre"]').fill("Prueba QA")
-        page.locator('#contact-form button').click()
+        page.locator('#contact-form button[value="correo"]').click()
         page.wait_for_function("document.querySelector('#form-feedback').textContent.length > 0")
         page.wait_for_timeout(200)
         drafts = [url for url in navigations if url.startswith("mailto:")]
@@ -677,6 +677,33 @@ class BrowserSmoke(unittest.TestCase):
                     page.locator(selector).first.click()
                     page.wait_for_function("scrollY < 5", timeout=3000)
                 page.close()
+
+    def test_form_whatsapp_option(self):
+        from urllib.parse import urlsplit, parse_qs
+        page = self.page(375)
+        page.evaluate("() => { window.__opened = []; window.open = (u) => { window.__opened.push(u); return {}; }; }")
+        page.locator('[name="nombre"]').fill("Prueba QA")
+        page.locator('[name="email"]').fill("qa@example.org")
+        page.locator('[name="mensaje"]').fill("Consulta WhatsApp & medios")
+        page.locator('#contact-form button[value="whatsapp"]').click()
+        page.wait_for_function("window.__opened.length === 1")
+        url = page.evaluate("window.__opened[0]")
+        parts = urlsplit(url)
+        self.assertEqual(parts.netloc + parts.path, "wa.me/56993324792")
+        text = parse_qs(parts.query)["text"][0]
+        self.assertIn("Prueba QA", text)
+        self.assertIn("Consulta WhatsApp & medios", text)
+        self.assertIn("WhatsApp", page.locator("#form-feedback").inner_text())
+        page.close()
+
+    def test_rodrigo_removed_side_paragraphs(self):
+        # Pedido de Rodrigo (25-11-2026): quitar los párrafos laterales de Qué hacemos, Servicios y Medios.
+        page = self.page(1280)
+        body = page.locator("body").inner_text()
+        for text in ("No se trata solo de aparecer", "Estas cinco áreas formaban parte",
+                     "Soluciones para llegar donde están tus audiencias"):
+            self.assertNotIn(text, body)
+        page.close()
 
 
 if __name__ == "__main__":

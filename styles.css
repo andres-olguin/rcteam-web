@@ -496,3 +496,10 @@ html:not(.js) #contact-form{display:none}
   .hero-lead{max-width:540px}
   .hero-art{height:clamp(380px,calc(100vh - 190px),520px)}
 }
+
+/* Formulario: envío por correo o por WhatsApp (pedido de Rodrigo, 25-11-2026). */
+.form-actions{display:flex;flex-wrap:wrap;gap:12px}
+.button-whatsapp{background:transparent;color:#fff;border:1px solid #61bfff80}
+.button-whatsapp:hover{background:#0f3a63;border-color:#58d7ff}
+@media(max-width:570px){.form-actions .button{flex:1 1 100%}}
+

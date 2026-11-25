@@ -103,7 +103,6 @@
         <div class="section-label"><span>02 / QUÉ HACEMOS</span><i></i></div>
         <div class="strategy-heading" data-reveal>
           <h2 id="strategy-title">Pensamos, planificamos<br><em>y hacemos que suceda.</em></h2>
-          <p>No se trata solo de aparecer. Se trata de conectar con las audiencias correctas, en el momento correcto.</p>
         </div>
         <div class="timeline">
           <article data-reveal><span class="timeline-node"></span><small>01 / PLANIFICACIÓN</small><h3>Cada decisión comienza con una buena estrategia.</h3><p>Analizamos objetivos, audiencias y oportunidades para diseñar planes de medios precisos, eficientes y alineados con cada desafío de comunicación.</p></article>
@@ -115,7 +114,6 @@
           <div class="catalog-intro">
             <p class="section-label">SERVICIOS / PROPUESTA DE VALOR</p>
             <h3>Cada desafío merece una estrategia a su medida.</h3>
-            <p>Estas cinco áreas formaban parte de la presentación original de RC Team. Complementan las etapas de planificación y ejecución del nuevo diseño.</p>
           </div>
           <div class="services-grid">
             <article><span>01 / MEDIOS</span><h4>Planificación de Medios</h4><p>Diseñamos estrategias de inversión publicitaria basadas en análisis de audiencias, eficiencia presupuestaria y maximización de impacto.</p></article>
@@ -133,7 +131,6 @@
         <div class="section-label"><span>03 / MEDIOS</span><i></i></div>
         <div class="media-heading">
           <h2 id="media-title" data-reveal>Conectamos marcas<br>con medios que<br><em>generan valor.</em></h2>
-          <p>Soluciones para llegar donde están tus audiencias.</p>
         </div>
         <div class="filter-bar" role="group" aria-label="Filtrar medios">
           <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Todos</button>
@@ -235,13 +232,16 @@
                 <label>Tipo de proyecto (opcional) <input name="proyecto" placeholder="Estrategia de medios"></label>
               </div>
               <label>¿En qué podemos ayudarte? <textarea name="mensaje" rows="3" placeholder="Cuéntanos sobre tu objetivo" required></textarea></label>
-              <button class="button button-primary" type="submit">Preparar consulta <span aria-hidden="true">↗</span></button>
+              <div class="form-actions">
+                <button class="button button-primary" type="submit" name="canal" value="correo">Enviar por correo <span aria-hidden="true">↗</span></button>
+                <button class="button button-whatsapp" type="submit" name="canal" value="whatsapp">Enviar por WhatsApp <span aria-hidden="true">↗</span></button>
+              </div>
               <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
               <div id="mail-fallback" hidden>
                 <p>Si no se abre tu correo, <a id="mail-draft-link" href="mailto:contacto@rcteam.cl">intenta abrir el borrador</a> o copia estos datos en tu servicio de correo. No se ha enviado ningún mensaje.</p>
                 <label>Consulta para copiar <textarea id="mail-draft-copy" rows="8" readonly></textarea></label>
               </div>
-              <p class="contact-disclaimer">Este formulario de demostración prepara un correo en tu dispositivo. La maqueta no almacena tus datos ni envía mensajes automáticamente.</p>
+              <p class="contact-disclaimer">Este formulario de demostración prepara el mensaje en tu correo o en WhatsApp para que lo envíes tú. La maqueta no almacena tus datos ni envía mensajes automáticamente.</p>
             </form>
           </div>
         </div>

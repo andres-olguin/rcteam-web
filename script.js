@@ -115,6 +115,16 @@
       + (phone ? "\nTeléfono: " + phone : "")
       + (project ? "\nProyecto: " + project : "")
       + "\n\nMensaje:\n" + message;
+    // WhatsApp de RC Team indicado por Rodrigo (25-11-2026): +56 9 9332 4792.
+    if (event.submitter && event.submitter.value === "whatsapp") {
+      const text = "Hola RC Team, les escribo desde la web.\n\n" + body;
+      const waUrl = "https://wa.me/56993324792?text=" + encodeURIComponent(text);
+      document.getElementById("mail-fallback").hidden = true;
+      feedback.textContent = "Se abrirá WhatsApp con tu mensaje listo. El envío queda a tu cargo.";
+      const opened = window.open(waUrl, "_blank", "noopener");
+      if (!opened) window.location.href = waUrl;
+      return;
+    }
     const url = "mailto:contacto@rcteam.cl?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     document.getElementById("mail-draft-link").href = url;
     document.getElementById("mail-draft-copy").value = "Para: contacto@rcteam.cl\nAsunto: " + subject + "\n\n" + body;
