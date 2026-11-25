@@ -663,6 +663,21 @@ class BrowserSmoke(unittest.TestCase):
                 self.assertGreaterEqual(min(labels), 0, f"Etiqueta tapada por el header: {offsets}")
                 page.close()
 
+    def test_back_to_top_links_scroll_to_page_start(self):
+        # Reportado por Dirección (25-11-2026): "Volver arriba" cambiaba a #inicio sin desplazar,
+        # porque el ancla estaba en el header fijo.
+        for width in (390, 1324):
+            with self.subTest(width=width):
+                page = self.page(width)
+                self.assertEqual(page.evaluate("document.getElementById('inicio').tagName"), "SECTION")
+                for selector in ('.site-footer a[href="#inicio"]:not(.footer-brand)', ".footer-brand", ".brand"):
+                    page.evaluate("history.replaceState(null, '', location.pathname); window.scrollTo(0, document.documentElement.scrollHeight)")
+                    page.wait_for_timeout(100)
+                    self.assertGreater(page.evaluate("scrollY"), 1000)
+                    page.locator(selector).first.click()
+                    page.wait_for_function("scrollY < 5", timeout=3000)
+                page.close()
+
 
 if __name__ == "__main__":
     unittest.main()
