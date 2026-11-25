@@ -601,6 +601,10 @@ class BrowserSmoke(unittest.TestCase):
                     };
                 }""")
                 self.assertIn("Tres Mentes", info["alt"])
+                link = page.locator(".site-footer a.footer-partner")
+                self.assertEqual(link.get_attribute("href"), "https://tr3smentes.cl/")
+                self.assertEqual(link.get_attribute("target"), "_blank")
+                self.assertIn("noopener", link.get_attribute("rel"))
                 self.assertGreaterEqual(info["width"], 110)
                 self.assertAlmostEqual(info["rendered"], info["intrinsic"], delta=0.08)
                 self.assertTrue(info["afterRc"], info)
@@ -633,6 +637,31 @@ class BrowserSmoke(unittest.TestCase):
         credit = page.locator('.site-footer a[href="https://mastertechg.com"]')
         self.assertEqual(credit.inner_text().strip(), "MasterTech")
         page.close()
+
+    def test_nav_links_land_at_section_start_with_same_margin(self):
+        # Pedido de Rodrigo (25-11-2026): "Qué hacemos" debe quedar al inicio, como las demás pestañas.
+        for width, height in ((1324, 608), (1920, 969), (390, 844)):
+            with self.subTest(viewport=f"{width}x{height}"):
+                page = self.browser.new_page(viewport={"width": width, "height": height},
+                                             reduced_motion="reduce", device_scale_factor=1)
+                page.goto(BASE, wait_until="domcontentloaded")
+                offsets = {}
+                for href in ("#agencia", "#servicios", "#medios", "#team", "#contacto"):
+                    self.assertEqual(page.locator(f'#main-nav a[href="{href}"]').count(), 1)
+                    page.evaluate("window.scrollTo(0, 0); location.hash = ''")
+                    page.evaluate(f"location.hash = '{href}'")
+                    page.wait_for_timeout(150)
+                    offsets[href] = page.evaluate(f"""() => {{
+                        const header = document.querySelector('.site-header').getBoundingClientRect().bottom;
+                        const section = document.querySelector('{href}');
+                        return {{tag: section.tagName, label: section.querySelector('.section-label').getBoundingClientRect().top - header}};
+                    }}""")
+                for href, data in offsets.items():
+                    self.assertEqual(data["tag"], "SECTION", f"{href} no apunta a una sección: {offsets}")
+                labels = [d["label"] for d in offsets.values()]
+                self.assertLessEqual(max(labels) - min(labels), 3, f"Márgenes distintos: {offsets}")
+                self.assertGreaterEqual(min(labels), 0, f"Etiqueta tapada por el header: {offsets}")
+                page.close()
 
 
 if __name__ == "__main__":
