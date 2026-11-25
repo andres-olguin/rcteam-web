@@ -74,3 +74,7 @@ Dirección revisó la preview en Opera (pantalla 1366×768, área útil ~1324×6
 - Hero en laptops: ocupa el alto visible y el titular escala con la altura (65 px en ~1324×608). 1920×1080 y móvil sin cambios.
 - Foto grupal junto al titular de Team, sin recorte.
 - Footer: «Desarrollo web por MasterTech» (marca comercial, sin la forma jurídica).
+
+## Correcciones de Rodrigo — 25 de noviembre de 2026 (12:29–12:32)
+- «Qué hacemos» en el menú bajaba a la línea de etapas y no al inicio de la sección. El ancla `#servicios` pasa a la sección completa; todos los enlaces del menú dejan la etiqueta de sección a la misma distancia del header.
+- Logo de Tres Mentes en el footer enlazado a https://tr3smentes.cl/ (URL enviada por Rodrigo), en pestaña nueva.

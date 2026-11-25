@@ -150,7 +150,7 @@ h2 em{font-style:normal;color:var(--blue)}
 .avatar-silhouette:after{content:"";position:absolute;border-radius:55% 55% 0 0;background:#2b618a;width:120px;height:100px;left:50%;bottom:-4px;transform:translateX(-50%)}
 .team-placeholder span{font-size:.64rem;font-weight:800;letter-spacing:.17em;color:#6bc4ff}
 .team-placeholder p{margin:4px 0 0;color:#d6e9f9;font-weight:700}
-.contact-section{background:linear-gradient(145deg,#03162c,#072e4f);padding:105px 0 30px;overflow:hidden}
+.contact-section{background:linear-gradient(145deg,#03162c,#072e4f);padding:100px 0 30px;overflow:hidden}
 .contact-heading{display:flex;align-items:center;justify-content:space-between;gap:28px;padding-bottom:38px;border-bottom:1px solid #6a9dcb7d}
 .contact-heading h2{font-size:clamp(2.8rem,6.25vw,7rem);line-height:1.05;max-width:1040px;margin:0}
 .contact-heading h2 em{color:#30b4ff}
