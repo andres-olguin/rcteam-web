@@ -70,7 +70,8 @@ La lista siguiente sigue siendo el control de entrega y aprobación general; est
 - [ ] Menú responsive, foco accesible y cierre con Escape.
 - [ ] Filtros de medios funcionan y las seis tarjetas del mosaico no dejan columnas/filas vacías en escritorio, tablet o móvil.
 - [ ] Navegación Team y Contacto funciona.
-- [ ] Rodrigo aparece como figura identificada por el sitio anterior y se aclara que su cargo está pendiente.
+- [ ] Team muestra foto grupal y los cinco integrantes con nombre y cargo enviados por Rodrigo.
+- [ ] Footer muestra RC Team / Tres Mentes, legible sobre fondo oscuro.
 - [ ] Otros perfiles pendientes no se confunden con personas reales.
 - [ ] Se preservaron los cinco servicios, se retiraron de la interfaz los logos históricos por petición del cliente y se mantiene la referencia visual a Declass.
 - [ ] Se siguen las correcciones de las 7 diapositivas de Rodrigo: textos exactos, orden Home→Agencia, secciones retiradas, Declass sin botón, contacto y footer.

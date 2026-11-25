@@ -52,7 +52,7 @@ Verificar vigencia de los contactos directamente con Rodrigo antes de desplegar.
 ## Elementos nuevos que requieren aprobación
 - Ilustraciones de Unsplash; ninguna acredita campañas ejecutadas por RC Team.
 - La cabecera de la web se modificó al texto suministrado por Rodrigo: «Conocemos los medios. Vamos más allá de la pauta.»
-- Equipo: Rodrigo identificado por su nombre en sitio anterior; los demás integrantes y cargos pendientes.
+- Equipo: cinco integrantes con nombre, cargo y retrato enviados por Rodrigo (WhatsApp, 20 y 23-11-2026), más foto grupal. Detalle en REQUIREMENTS.md.
 - Formulario definitivo de producción y aviso de privacidad.
 
 ## Preguntas concretas para Rodrigo

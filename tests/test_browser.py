@@ -544,6 +544,71 @@ class BrowserSmoke(unittest.TestCase):
                     self.assertGreaterEqual(metrics["h1Size"], 100.0, f"1920x1080 H1 unintentionally shrunk: {metrics}")
                 page.close()
 
+    def test_team_members_confirmed_with_photos(self):
+        expected = [
+            ("Rodrigo Cornejo S.M.", "Director General"),
+            ("Ignacio Szalay B.", "Desarrollo de Negocios y Medios"),
+            ("Bárbara León G.", "Ejecutiva de Medios"),
+            ("Paz Palacios V.", "Coordinadora de Administración"),
+            ("Alejandra Fernández A.", "Coordinadora de Finanzas"),
+        ]
+        for width in (390, 1280):
+            with self.subTest(width=width):
+                page = self.page(width)
+                page.locator("#team").scroll_into_view_if_needed()
+                page.evaluate("document.querySelectorAll('#team img').forEach(i => i.loading = 'eager')")
+                page.wait_for_function(
+                    "[...document.querySelectorAll('#team img')].every(i => i.complete && i.naturalWidth > 0)"
+                )
+                cards = page.evaluate("""() => [...document.querySelectorAll('.team-grid > article')].map(a => ({
+                    name: a.querySelector('h3').textContent.trim(),
+                    role: a.querySelector('p').textContent.trim(),
+                    alt: a.querySelector('img').alt,
+                    rendered: a.querySelector('img').getBoundingClientRect().width,
+                }))""")
+                self.assertEqual([(c["name"], c["role"]) for c in cards], expected)
+                for card in cards:
+                    self.assertIn(card["name"], card["alt"])
+                    self.assertGreater(card["rendered"], 100)
+                self.assertEqual(page.locator("#team .avatar-silhouette").count(), 0)
+                self.assertEqual(page.locator("#team").get_by_text("confirmar", exact=False).count(), 0)
+                group = page.locator(".team-group img")
+                self.assertEqual(group.count(), 1)
+                self.assertGreater(group.evaluate("(el) => el.getBoundingClientRect().height"), 200)
+                page.close()
+
+    def test_footer_shows_rc_team_and_tres_mentes(self):
+        for width in (390, 1280):
+            with self.subTest(width=width):
+                page = self.page(width)
+                logo = page.locator(".site-footer .footer-partner-logo")
+                self.assertEqual(logo.count(), 1)
+                logo.scroll_into_view_if_needed()
+                page.wait_for_function(
+                    "(() => { const i = document.querySelector('.footer-partner-logo'); return i.complete && i.naturalWidth > 0; })()"
+                )
+                info = page.evaluate("""() => {
+                    const tm = document.querySelector('.footer-partner-logo');
+                    const rc = document.querySelector('.footer-brand img');
+                    const a = tm.getBoundingClientRect(), b = rc.getBoundingClientRect();
+                    return {
+                        alt: tm.alt, width: a.width,
+                        rendered: a.width / a.height, intrinsic: tm.naturalWidth / tm.naturalHeight,
+                        centerDelta: Math.abs((a.top + a.bottom) / 2 - (b.top + b.bottom) / 2),
+                        afterRc: a.left > b.right,
+                        filter: getComputedStyle(tm).filter,
+                        overflow: document.documentElement.scrollWidth - innerWidth,
+                    };
+                }""")
+                self.assertIn("Tres Mentes", info["alt"])
+                self.assertGreaterEqual(info["width"], 110)
+                self.assertAlmostEqual(info["rendered"], info["intrinsic"], delta=0.08)
+                self.assertTrue(info["afterRc"], info)
+                self.assertLessEqual(info["centerDelta"], 6, info)
+                self.assertEqual(info["filter"], "none")
+                self.assertLessEqual(info["overflow"], 2)
+                page.close()
+
 
 if __name__ == "__main__":
     unittest.main()

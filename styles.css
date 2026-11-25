@@ -461,3 +461,28 @@ html:not(.js) #contact-form{display:none}
 @media(min-width:851px) and (max-width:1140px) and (max-height:690px){
   .hero-art-caption{top:130px}
 }
+
+/* Team confirmado por Rodrigo (WhatsApp 20 y 23-11-2026): foto grupal y retratos con cargo. */
+.team-group{margin:0 0 14px;border:1px solid #3779a54a;overflow:hidden;background:#0d2948}
+.team-group img{display:block;width:100%;height:clamp(260px,34vw,460px);object-fit:cover;object-position:center 6%}
+.team-confirmed .team-photo{height:230px;object-position:center 18%}
+@media(max-width:1100px){.team-confirmed .team-photo{height:190px}}
+@media(max-width:850px){.team-confirmed .team-photo{height:210px}}
+@media(max-width:570px){
+  .team-group img{height:230px}
+  .team-confirmed .team-photo{height:175px}
+}
+
+/* Footer: RC Team / Tres Mentes. Versión clara derivada del PNG transparente entregado por Rodrigo. */
+.footer-brands{display:flex;align-items:center;gap:18px}
+.footer-brands-divider{width:1px;height:30px;background:#4b729a}
+.footer-partner-logo{width:150px;height:auto;display:block}
+@media(max-width:850px){
+  .footer-brands{flex-basis:100%}
+  .footer-brands .footer-brand{flex-basis:auto}
+}
+@media(max-width:570px){
+  .footer-brands{gap:14px}
+  .footer-brand img{width:120px}
+  .footer-partner-logo{width:125px}
+}

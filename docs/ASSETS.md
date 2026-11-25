@@ -40,3 +40,12 @@ Por instrucción del cliente se retiró de la página la franja de logos histór
 - `assets/favicon-rc-team.svg` contiene el isotipo RC extraído del archivo facilitado por el cliente, incorporado como imagen PNG transparente dentro del SVG para uso de navegador. Sustituye en la maqueta el favicon antiguo de `images/favicon.ico`, que permanece archivado.
 - Verificar el favicon sin caché y la apariencia del logotipo sobre los distintos tonos del encabezado antes de producción; el filtro fue validado visualmente en Chromium con el archivo fuente original.
 - El mosaico de seis medios cambió su grilla para ocupar completamente las dos filas de escritorio y evitar huecos blancos.
+
+## Team y Tres Mentes (25-11-2026)
+Derivados web de archivos enviados por Rodrigo por WhatsApp (20, 23 y 24-11-2026). Los originales PNG/JPEG de los retratos no se suben; quedan en poder de MasterTech.
+- `images/team/rc-team-equipo.webp`: foto grupal, 1131×752 px (resolución original), WebP calidad 82.
+- `images/team/rodrigo-cornejo-2026.webp`, `ignacio-szalay.webp`, `barbara-leon.webp`, `paz-palacios.webp`, `alejandra-fernandez.webp`: retratos reducidos a 640 px de ancho, WebP calidad 80, sin recorte ni retoque.
+- `images/rodrigo-cornejo.webp` deja de mostrarse (Rodrigo envió retrato nuevo); se conserva como respaldo.
+- `images/tres-mentes-logo-transparente.png`: copia del PNG transparente «TR3S_MENTES_Logo_Transparente_1500px.png».
+- `assets/logo-tres-mentes-blanco.webp`: versión para fondo oscuro derivada del PNG transparente. Texto azul marino y gris pasados a blanco, «3» azul #0066FF sin cambios, márgenes transparentes recortados. No se redibujó el logo. Si Rodrigo tiene una versión negativa oficial, reemplazarla.
+

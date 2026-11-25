@@ -67,8 +67,13 @@ class SEO(unittest.TestCase):
     def test_production_is_blocked_until_ready(self):
         blockers = production_blockers(HTML, JS)
         self.assertTrue(any("formulario" in issue.lower() for issue in blockers))
-        self.assertTrue(any("equipo" in issue.lower() for issue in blockers))
         self.assertTrue(any("fotografías" in issue.lower() for issue in blockers))
+
+    def test_team_blocker_fires_only_with_pending_profiles(self):
+        pending = HTML.replace("</main>", '<div class="team-placeholder"></div></main>', 1)
+        self.assertTrue(any("equipo" in issue.lower() for issue in production_blockers(pending, JS)))
+        # Team confirmado por Rodrigo el 23-11-2026: ya no quedan perfiles pendientes.
+        self.assertFalse(any("equipo" in issue.lower() for issue in production_blockers(HTML, JS)))
 
     def test_relative_assets_survive_a_subdirectory(self):
         self.assertIn('src="assets/logo-rc-team-negro.webp"', HTML)

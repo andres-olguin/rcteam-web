@@ -18,7 +18,7 @@ Conversación con Rodrigo Cornejo en octubre de 2026 y tres imágenes de referen
 - Formulario de demostración que abre borrador de correo, sin envío de producción.
 
 ## Pendiente
-- El sitio original identifica a Rodrigo Cornejo S.M. y su foto, ahora recuperados en Team. Su cargo y los demás nombres, fotografías y cargos continúan por confirmar.
+- Team: Rodrigo envió por WhatsApp la foto grupal (20-11-2026) y los retratos con nombre y cargo de cada integrante (23-11-2026). La maqueta los incorpora tal como figuran en los nombres de archivo enviados; ver sección «Team y Tres Mentes».
 - Validar en GitHub Pages la maquetación de las correcciones v2 y las fotografías de fondo. Rodrigo indicó que enviará imágenes del equipo y posteriormente reemplazará algunas imágenes de fondo.
 - Decidir si el formulario de producción conserva FormSubmit o usa otra solución.
 - GitHub Pages quedó configurado el 3 de noviembre de 2026; revisar y aprobar visualmente la web y planificar despliegue posterior en rcteam.cl.
@@ -51,4 +51,20 @@ Rodrigo entregó el archivo privado **CORRECCIÓN WEB RC TEAM v2.pptx** por What
 
 Las afirmaciones sobre Declass, la Embajada de Estados Unidos y los más de 23.000 documentos se transcriben **a solicitud de Rodrigo**. No se han verificado de forma independiente; el cliente es responsable de confirmar la exactitud y autorización comercial antes de producción.
 
-**Pendiente:** fotos y cargos del resto del equipo; sustitución posterior de algunas imágenes de fondo; validación final en dispositivos y aprobación antes de reemplazar rcteam.cl.
+**Pendiente:** sustitución posterior de algunas imágenes de fondo; validación final en dispositivos y aprobación antes de reemplazar rcteam.cl.
+
+## Team y Tres Mentes — 25 de noviembre de 2026
+Material recibido de Rodrigo por WhatsApp (los archivos originales no se suben al repositorio público, salvo los derivados web indicados en ASSETS.md):
+- 20-11-2026: foto grupal del equipo («Te envío las fotos del equipo para ir avanzando»).
+- 23-11-2026: retratos con nombre y cargo («Te envío foto y cargo de los integrantes del Team»):
+  - Rodrigo Cornejo S.M. — Director General.
+  - Ignacio Szalay B. — Desarrollo de Negocios y Medios.
+  - Bárbara León G. — Ejecutiva de Medios.
+  - Paz Palacios V. — Coordinadora de Administración.
+  - Alejandra Fernández A. — Coordinadora de Finanzas.
+- 24-11-2026: pidió incluir el logo de Tres Mentes en el pie, junto al de RC Team («RC Team / Tres Mentes»), y adjuntó el logo en JPEG y PNG transparente.
+
+Decisiones de maqueta sin confirmación expresa del cliente: orden de las tarjetas (Director General primero), ubicación de la foto grupal sobre las tarjetas y versión clara del logo de Tres Mentes para el pie oscuro. El logo de Tres Mentes no enlaza a ningún sitio porque no se entregó URL.
+
+Rodrigo también informó que reenvió por correo los accesos al hosting. Esos accesos no se registran en el repositorio y no autorizan por sí solos el despliegue en rcteam.cl.
+
