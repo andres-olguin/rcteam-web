@@ -11,7 +11,7 @@ Evolucionar un sitio estático profesional siguiendo la referencia editorial azu
 5. Mantener HTML, CSS y JavaScript nativos, salvo justificación técnica documentada y aprobación.
 6. Mantener rutas de recursos internas relativas (GitHub Pages usa /rcteam-web/).
 7. Conservar el branding RC Team: variantes WebP derivadas de los archivos facilitados; no sustituir ni alterar logotipo por IA.
-8. Usar solo datos de equipo confirmados. Rodrigo aparece con foto del sitio anterior, pero su cargo y los demás integrantes siguen pendientes. No inventar perfiles ni roles.
+8. Usar solo datos de equipo confirmados. Los cinco integrantes, sus cargos y retratos fueron enviados por Rodrigo el 20 y 23-11-2026 (ver docs/REQUIREMENTS.md). No inventar perfiles ni roles adicionales.
 9. Fotografías Unsplash son recursos ilustrativos, no campañas realizadas por RC Team. Deben revisarse con Rodrigo antes de publicar producción.
 10. El formulario de preview solo abre borrador de correo: no activar FormSubmit ni otro backend sin autorización.
 11. Evitar implementar métricas, clientes, testimonios, premios o cifras no verificadas.
@@ -55,4 +55,4 @@ Antigravity: revisión UI, responsive, interacciones y QA visual.
 Trabajar en ramas distintas o en secuencia para evitar conflictos. No ejecutar merges o despliegues simultáneos sin revisión. Un responsable integra los PR.
 
 ## Pendientes comerciales
-Confirmados: nuevo estilo editorial, menú Team/Contacto, navegación vertical. Pendientes: material de 4–5 integrantes, aprobación del rediseño y decisión del contacto final. Ver docs/REQUIREMENTS.md.
+Confirmados: nuevo estilo editorial, menú Team/Contacto, navegación vertical. Pendientes: aprobación del rediseño y decisión del contacto final. Material de Team recibido el 23-11-2026. Ver docs/REQUIREMENTS.md.
