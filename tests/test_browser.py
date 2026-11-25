@@ -712,7 +712,7 @@ class BrowserSmoke(unittest.TestCase):
             return {src: img.getAttribute('src'),
                     bg: getComputedStyle(document.querySelector('.hero-photo')).backgroundImage};
         }""")
-        self.assertEqual(info["src"], "images/hero-fondo-ciudad-noche.webp")
+        self.assertEqual(info["src"], "images/hero-collage-pantalla-carretera.webp")
         self.assertIn("hero-fondo-ciudad-noche.webp", info["bg"])
         self.assertNotIn("unsplash", info["bg"])
         page.wait_for_function("document.querySelector('.hero-art-frame img').naturalWidth > 0")
