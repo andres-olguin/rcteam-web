@@ -705,6 +705,19 @@ class BrowserSmoke(unittest.TestCase):
             self.assertNotIn(text, body)
         page.close()
 
+    def test_hero_uses_image_supplied_by_rodrigo(self):
+        page = self.page(1280)
+        info = page.evaluate("""() => {
+            const img = document.querySelector('.hero-art-frame img');
+            return {src: img.getAttribute('src'),
+                    bg: getComputedStyle(document.querySelector('.hero-photo')).backgroundImage};
+        }""")
+        self.assertEqual(info["src"], "images/hero-fondo-ciudad-noche.webp")
+        self.assertIn("hero-fondo-ciudad-noche.webp", info["bg"])
+        self.assertNotIn("unsplash", info["bg"])
+        page.wait_for_function("document.querySelector('.hero-art-frame img').naturalWidth > 0")
+        page.close()
+
 
 if __name__ == "__main__":
     unittest.main()
