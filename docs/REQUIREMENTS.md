@@ -78,3 +78,8 @@ Dirección revisó la preview en Opera (pantalla 1366×768, área útil ~1324×6
 ## Correcciones de Rodrigo — 25 de noviembre de 2026 (12:29–12:32)
 - «Qué hacemos» en el menú bajaba a la línea de etapas y no al inicio de la sección. El ancla `#servicios` pasa a la sección completa; todos los enlaces del menú dejan la etiqueta de sección a la misma distancia del header.
 - Logo de Tres Mentes en el footer enlazado a https://tr3smentes.cl/ (URL enviada por Rodrigo), en pestaña nueva.
+
+## Aprobaciones de Rodrigo — 25 de noviembre de 2026 (13:30–13:35, WhatsApp)
+- «Todos los textos están aprobados.» Pidió eliminar tres párrafos laterales: «No se trata solo de aparecer…» (Qué hacemos), «Estas cinco áreas formaban parte…» (Servicios) y «Soluciones para llegar donde están tus audiencias.» (Medios). Eliminados.
+- «El texto de Declass está confirmado.» Confirmación del cliente; MasterTech no lo ha verificado de forma independiente.
+- Formulario: «está bien que llegue al correo (contacto@rcteam.cl), si también llega al WhatsApp +56993324792 genial». La preview ofrece ahora dos botones: borrador de correo a contacto@rcteam.cl y mensaje prellenado de WhatsApp (wa.me/56993324792). Ambos los envía el visitante. **Pendiente:** elegir el mecanismo de envío automático al correo para producción (servicio externo o script en el hosting); el bloqueador de producción del formulario se mantiene hasta entonces.
