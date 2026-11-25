@@ -505,5 +505,7 @@ html:not(.js) #contact-form{display:none}
 
 /* Imágenes del hero entregadas por Rodrigo (25-11-2026): ciudad de noche en el fondo y,
    en el collage, una sola pantalla en la carretera. Sin hue-rotate para conservar los colores reales. */
-.hero-art-frame img{object-position:center 45%;filter:saturate(.95) contrast(1.05)}
+.hero-art-frame img{object-position:center center;filter:none}
+/* Velo más liviano: la foto ya es nocturna; solo se oscurece la base para leer las tarjetas. */
+.hero-art-frame:after{background:linear-gradient(180deg,transparent 55%,#001b3799 100%)}
 
