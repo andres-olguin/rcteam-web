@@ -609,6 +609,31 @@ class BrowserSmoke(unittest.TestCase):
                 self.assertLessEqual(info["overflow"], 2)
                 page.close()
 
+    def test_hero_fills_real_laptop_browser_viewport(self):
+        # Áreas útiles medidas en Opera maximizado sobre pantalla 1366x768 (zoom 100 % y 125 %).
+        for width, height, min_h1 in ((1324, 608, 60), (1053, 488, 40)):
+            with self.subTest(viewport=f"{width}x{height}"):
+                page = self.browser.new_page(
+                    viewport={"width": width, "height": height},
+                    reduced_motion="reduce", device_scale_factor=1,
+                )
+                page.goto(BASE, wait_until="domcontentloaded")
+                m = page.evaluate("""() => ({
+                    hero: document.querySelector('.hero').getBoundingClientRect().height,
+                    h1: parseFloat(getComputedStyle(document.querySelector('.hero h1')).fontSize),
+                    cta: document.querySelector('.hero-actions .button-primary').getBoundingClientRect().bottom,
+                })""")
+                self.assertGreaterEqual(m["hero"], height - 2, f"Franja vacía bajo el hero: {m}")
+                self.assertGreaterEqual(m["h1"], min_h1, f"Titular demasiado pequeño: {m}")
+                self.assertLessEqual(m["cta"], height, f"CTA bajo el pliegue: {m}")
+                page.close()
+
+    def test_footer_credits_mastertech_brand(self):
+        page = self.page(1280)
+        credit = page.locator('.site-footer a[href="https://mastertechg.com"]')
+        self.assertEqual(credit.inner_text().strip(), "MasterTech")
+        page.close()
+
 
 if __name__ == "__main__":
     unittest.main()
