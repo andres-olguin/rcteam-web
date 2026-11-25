@@ -503,7 +503,7 @@ html:not(.js) #contact-form{display:none}
 .button-whatsapp:hover{background:#0f3a63;border-color:#58d7ff}
 @media(max-width:570px){.form-actions .button{flex:1 1 100%}}
 
-/* Imagen del hero entregada por Rodrigo (25-11-2026): reemplaza la foto ilustrativa de Unsplash.
-   Sin hue-rotate para conservar los colores reales de la ciudad. */
-.hero-art-frame img{object-position:72% center;filter:saturate(.9) contrast(1.06)}
+/* Imágenes del hero entregadas por Rodrigo (25-11-2026): ciudad de noche en el fondo y,
+   en el collage, una sola pantalla en la carretera. Sin hue-rotate para conservar los colores reales. */
+.hero-art-frame img{object-position:center 45%;filter:saturate(.95) contrast(1.05)}
 
