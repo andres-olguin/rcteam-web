@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 const DESTINO = 'contacto@rcteam.cl';
-const REMITENTE = 'noreply@rcteam.cl';
+const REMITENTE = 'contacto@rcteam.cl';
 const SITIO = 'https://rcteam.cl/';
 
 header('X-Content-Type-Options: nosniff');
