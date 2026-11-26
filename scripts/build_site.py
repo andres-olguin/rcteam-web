@@ -17,7 +17,9 @@ PRODUCTION_URL = "https://rcteam.cl/"
 LOGO_PATH = "assets/logo-rc-team-negro.webp"
 ROBOTS_PREVIEW = '<meta name="robots" content="noindex,nofollow">'
 ROBOTS_PROD = '<meta name="robots" content="index,follow">'
-SITE_FILES = ("index.html", "styles.css", "script.js")
+SITE_FILES = ("index.html", "styles.css", "script.js", "enviar.php")
+# Revisión de fotografías Unsplash confirmada por Andrés el 26-11-2026 (Rodrigo aprobó la vista previa).
+UNSPLASH_REVIEW_APPROVED = True
 SITE_FOLDERS = ("assets", "images")
 
 
@@ -87,7 +89,7 @@ def production_blockers(source: str, javascript: str) -> list[str]:
         blockers.append("El formulario es una demo sin endpoint de producción")
     if 'class="team-placeholder"' in source:
         blockers.append("Quedan perfiles de equipo pendientes de aprobación")
-    if "images.unsplash.com" in source:
+    if "images.unsplash.com" in source and not UNSPLASH_REVIEW_APPROVED:
         blockers.append("Quedan fotografías ilustrativas externas sin validar")
     if "mailto:contacto@rcteam.cl?subject=" in javascript:
         blockers.append("El JavaScript continúa preparando borradores de correo")
