@@ -718,6 +718,24 @@ class BrowserSmoke(unittest.TestCase):
         page.wait_for_function("document.querySelector('.hero-art-frame img').naturalWidth > 0")
         page.close()
 
+    def test_timeline_labels_stay_on_one_line(self):
+        # Pedido de Rodrigo (25-11-2026): las etiquetas de etapas no deben partirse en el celular.
+        for width in (320, 360, 390, 412, 600, 768, 1024, 1324, 1920):
+            with self.subTest(width=width):
+                page = self.page(width)
+                labels = page.evaluate("""() => [...document.querySelectorAll('.timeline small')].map(s => {
+                    const r = document.createRange(); r.selectNodeContents(s);
+                    const lines = new Set([...r.getClientRects()].map(x => Math.round(x.top))).size;
+                    return {text: s.textContent, lines, right: s.getBoundingClientRect().right,
+                            col: s.parentElement.getBoundingClientRect().right};
+                })""")
+                self.assertEqual(len(labels), 4)
+                for label in labels:
+                    self.assertEqual(label["lines"], 1, label)
+                    self.assertLessEqual(label["right"], label["col"] + 1, label)
+                self.assertLessEqual(page.evaluate("document.documentElement.scrollWidth - innerWidth"), 1)
+                page.close()
+
 
 if __name__ == "__main__":
     unittest.main()

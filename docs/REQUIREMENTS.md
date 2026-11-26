@@ -86,3 +86,7 @@ Dirección revisó la preview en Opera (pantalla 1366×768, área útil ~1324×6
 - 13:44–13:45: Rodrigo envió la imagen para reemplazar «la imagen grande». Se aplica al hero: collage y fondo, en lugar de la foto ilustrativa de Unsplash (calle con letreros). El mosaico de Medios conserva sus imágenes ilustrativas.
 - 13:53: Rodrigo aclaró que la imagen de la ciudad es el fondo («imagen grande») y que la foto chica del collage debe usar la autopista mostrando una sola pantalla. Aplicado.
 - 14:04: Dirección aprobó un recorte más amplio y nítido para el collage, con velo más liviano. Se ve una pantalla menor al fondo; se consulta a Rodrigo.
+
+## Aprobación de Rodrigo — 25 de noviembre de 2026 (14:56–14:57, WhatsApp)
+- Corrección móvil: «01 / PLANIFICACIÓN» y «03 / IMPLEMENTACIÓN» deben quedar en una sola línea. Etapas en una columna hasta 480 px y en dos columnas entre 481 y 960 px; etiquetas sin corte (`white-space:nowrap`). Medido con DM Sans real: la etiqueta más larga mide 178–188 px y la columna más angosta 206 px.
+- «Todo lo demás aprobado» y «Luz verde». Pendiente para producción: mecanismo de envío automático del formulario, respaldo del sitio actual y plan de publicación en rcteam.cl.

@@ -509,3 +509,15 @@ html:not(.js) #contact-form{display:none}
 /* Velo más liviano: la foto ya es nocturna; solo se oscurece la base para leer las tarjetas. */
 .hero-art-frame:after{background:linear-gradient(180deg,transparent 55%,#001b3799 100%)}
 
+
+/* Etiquetas de etapas en una sola línea (pedido de Rodrigo, 25-11-2026: «03 / IMPLEMENTACIÓN»
+   y «01 / PLANIFICACIÓN» se partían a mitad de palabra en el celular). */
+.timeline small{display:block;white-space:nowrap;overflow-wrap:normal}
+@media(max-width:960px){
+  .timeline{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;row-gap:35px;border:0}
+  .timeline article{border-top:2px solid #1267e0;padding-top:18px}
+}
+@media(max-width:480px){
+  .timeline{grid-template-columns:1fr;row-gap:30px}
+  .timeline small{letter-spacing:.12em}
+}
