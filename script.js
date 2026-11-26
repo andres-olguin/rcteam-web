@@ -98,11 +98,16 @@
     field.addEventListener("input", validate);
   });
   form?.addEventListener("submit", (event) => {
-    event.preventDefault();
     form.querySelectorAll("[required]").forEach((field) => {
       field.setCustomValidity(field.value.trim() ? "" : "Completa este campo sin usar solo espacios.");
     });
-    if (!form.reportValidity()) return;
+    if (!form.reportValidity()) {
+      event.preventDefault();
+      return;
+    }
+    // El botón de correo envía el formulario nativo a enviar.php (POST).
+    if (!event.submitter || event.submitter.value !== "whatsapp") return;
+    event.preventDefault();
     const data = new FormData(form);
     const name = String(data.get("nombre") || "").trim();
     const email = String(data.get("email") || "").trim();
@@ -110,27 +115,16 @@
     const phone = String(data.get("telefono") || "").trim();
     const project = String(data.get("proyecto") || "").trim();
     if (!name || !email || !message) return;
-    const subject = "Consulta web RC Team - " + name;
     const body = "Nombre: " + name + "\nCorreo: " + email
       + (phone ? "\nTeléfono: " + phone : "")
       + (project ? "\nProyecto: " + project : "")
       + "\n\nMensaje:\n" + message;
     // WhatsApp de RC Team indicado por Rodrigo (25-11-2026): +56 9 9332 4792.
-    if (event.submitter && event.submitter.value === "whatsapp") {
-      const text = "Hola RC Team, les escribo desde la web.\n\n" + body;
-      const waUrl = "https://wa.me/56993324792?text=" + encodeURIComponent(text);
-      document.getElementById("mail-fallback").hidden = true;
-      feedback.textContent = "Se abrirá WhatsApp con tu mensaje listo. El envío queda a tu cargo.";
-      const opened = window.open(waUrl, "_blank", "noopener");
-      if (!opened) window.location.href = waUrl;
-      return;
-    }
-    const url = "mailto:contacto@rcteam.cl?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-    document.getElementById("mail-draft-link").href = url;
-    document.getElementById("mail-draft-copy").value = "Para: contacto@rcteam.cl\nAsunto: " + subject + "\n\n" + body;
-    document.getElementById("mail-fallback").hidden = false;
-    feedback.textContent = "Se preparará un borrador en tu aplicación de correo. El envío queda a tu cargo.";
-    window.location.href = url;
+    const text = "Hola RC Team, les escribo desde la web.\n\n" + body;
+    const waUrl = "https://wa.me/56993324792?text=" + encodeURIComponent(text);
+    feedback.textContent = "Se abrirá WhatsApp con tu mensaje listo. El envío queda a tu cargo.";
+    const opened = window.open(waUrl, "_blank", "noopener");
+    if (!opened) window.location.href = waUrl;
   });
 
   const year = document.getElementById("year");

@@ -220,9 +220,9 @@
           </div>
           <div class="form-panel">
             <p class="form-kicker">ESCRÍBENOS</p>
-            <p class="demo-warning">Vista previa: el formulario todavía no envía mensajes. Para contactar a RC Team, utiliza el correo o WhatsApp.</p>
             <noscript><p>Para preparar una consulta necesitas JavaScript. Escribe a <a href="mailto:contacto@rcteam.cl">contacto@rcteam.cl</a> desde tu correo o utiliza WhatsApp.</p></noscript>
-            <form id="contact-form" action="#" method="post">
+            <form id="contact-form" action="enviar.php" method="post">
+              <p class="hp-field" aria-hidden="true"><label>No completar <input name="sitio_web" tabindex="-1" autocomplete="off"></label></p>
               <div class="field-grid">
                 <label>Nombre <input name="nombre" autocomplete="name" placeholder="Tu nombre" required></label>
                 <label>Correo <input type="email" name="email" autocomplete="email" placeholder="nombre@correo.com" required></label>
@@ -237,11 +237,7 @@
                 <button class="button button-whatsapp" type="submit" name="canal" value="whatsapp">Enviar por WhatsApp <span aria-hidden="true">↗</span></button>
               </div>
               <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
-              <div id="mail-fallback" hidden>
-                <p>Si no se abre tu correo, <a id="mail-draft-link" href="mailto:contacto@rcteam.cl">intenta abrir el borrador</a> o copia estos datos en tu servicio de correo. No se ha enviado ningún mensaje.</p>
-                <label>Consulta para copiar <textarea id="mail-draft-copy" rows="8" readonly></textarea></label>
-              </div>
-              <p class="contact-disclaimer">Este formulario de demostración prepara el mensaje en tu correo o en WhatsApp para que lo envíes tú. La maqueta no almacena tus datos ni envía mensajes automáticamente.</p>
+              <p class="contact-disclaimer">Al enviar, tu consulta llega al correo de RC Team. Si prefieres, también puedes escribirnos por WhatsApp.</p>
             </form>
           </div>
         </div>
